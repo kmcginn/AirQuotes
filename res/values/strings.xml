@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AirQuotes</string>
+    <string name="menu_settings">Settings</string>
+    <string name="p_message">Post</string>
+    <string name="v_message">View</string>
+    <string name="title_activity_post">Post A Message!</string>
+    <string name="enter_m">Enter message</string>
+    <string name="m_button">Post</string>
+    <string name="title_activity_find">All Messages</string>
+
+</resources>
