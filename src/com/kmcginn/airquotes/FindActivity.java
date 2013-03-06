@@ -3,14 +3,13 @@ package com.kmcginn.airquotes;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -22,9 +21,9 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-public class FindActivity extends Activity{
+public class FindActivity extends Fragment{
 
-	final Context context = this;
+	final Context context = getActivity();
 	
 	private ArrayAdapter<String> listAdapter;
 	
@@ -33,19 +32,21 @@ public class FindActivity extends Activity{
 	
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_find);
-		// Make sure we're running on Honeycomb or higher to use ActionBar APIs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        	// Show the Up button in the action bar.
-        	getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        // get ListView from activity's View
-        ListView listView = (ListView) findViewById(R.id.list);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);      
+	
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		
+		//inflate the UI view for the fragment from XML file
+		View rootView = inflater.inflate(R.layout.activity_find, container, false);
+		
+		 // get ListView from activity's View
+        ListView listView = (ListView) rootView.findViewById(R.id.list);
         // init arraylist adapter
-        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        listAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
         
@@ -79,16 +80,20 @@ public class FindActivity extends Activity{
         		}
         	}
         });
-	
+		
+		//return view to be displayed
+		return rootView;
 	}
 	
+	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_find, menu);
 		return true;
 	}
-
+*/
+	/*
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -105,5 +110,6 @@ public class FindActivity extends Activity{
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	*/
 
 }
