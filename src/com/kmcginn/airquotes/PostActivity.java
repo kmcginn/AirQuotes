@@ -1,7 +1,6 @@
 package com.kmcginn.airquotes;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,68 +11,52 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+//import com.example.newtester.R;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
-public class PostActivity extends Activity {
+public class PostActivity extends Fragment {
 
 	ParseObject messageHolder;
-	final Context context = this;
+	final Context context = getActivity();
 	private LocationManager locationManager;
 	private double lat;
 	private double lng;
 	
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_post);
-		// Make sure we're running on Honeycomb or higher to use ActionBar APIs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        	// Show the Up button in the action bar.
-        	getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+		
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_post, menu);
-		return true;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.activity_post, container, false);
+        //TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
+        //dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+        return rootView;
 	}
-
+	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onStart() {
+	public void onStart() {
 	    super.onStart();
 
 	    // initialize location manager
-	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	    locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 	    // check if GPS is enabled
 	    final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -122,7 +105,7 @@ public class PostActivity extends Activity {
 	}
 
 	@Override
-	protected void onStop() {
+	public void onStop() {
 		super.onStop();
 		// end GPS searching, etc.
 		locationManager.removeUpdates(listener);		
@@ -163,7 +146,7 @@ public class PostActivity extends Activity {
 	public void postMessage(View view) {
 		
 		// get text from user's EditText box
-		EditText editText = (EditText) findViewById(R.id.messageBox);
+		EditText editText = (EditText) getView().findViewById(R.id.messageBox);
 		String message = editText.getText().toString();		
 		// gather message info for Parse
 		messageHolder = new ParseObject("Message");
@@ -185,7 +168,7 @@ public class PostActivity extends Activity {
 			}
 		});
 		// go back to main page
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(context, MainActivity.class);
 		startActivity(intent);
 	}
 	
