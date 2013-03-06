@@ -2,6 +2,7 @@ bin\
 libs\
 libs/
 bin/
+gen\
 
 #################
 ## Eclipse
