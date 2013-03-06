@@ -15,6 +15,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.View;
 
+import com.kmcginn.airquotes.FindActivity;
+import com.kmcginn.airquotes.PostActivity;
+
 import com.parse.Parse;
 
 public class MainActivity extends FragmentActivity implements 
@@ -90,19 +93,21 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
+		//Auto-generated method stub
+		//do nothing
 		
 	}
 
 	@Override
 	public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
+		// TODO switch to tab
 		
 	}
 
 	@Override
 	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
+		//Auto-generated method stub
+		//do nothing
 		
 	}
 	
@@ -117,9 +122,18 @@ public class MainActivity extends FragmentActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 						
 			//INIT FRAGMENT TYPE BASED ON POSITION
-			Fragment fragment = new Fragment();
+			Fragment fragment;
 			
-			//switch 
+			switch(position) {
+			case 0:
+				fragment = new PostActivity();
+				break;
+			case 1:
+				fragment = new FindActivity();
+				break;
+			default:
+				fragment = new Fragment();
+			}
 			
 			Bundle args = new Bundle();
 			

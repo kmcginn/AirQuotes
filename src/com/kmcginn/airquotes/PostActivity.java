@@ -8,30 +8,24 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.example.newtester.R;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+//import com.example.newtester.R;
 
 public class PostActivity extends Fragment {
 
 	ParseObject messageHolder;
-	final Context context = getActivity();
 	private LocationManager locationManager;
 	private double lat;
 	private double lng;
@@ -54,9 +48,11 @@ public class PostActivity extends Fragment {
 	@Override
 	public void onStart() {
 	    super.onStart();
+	    
+	    
 
 	    // initialize location manager
-	    locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+	    locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 	    // check if GPS is enabled
 	    final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -64,7 +60,7 @@ public class PostActivity extends Fragment {
 	    if (!gpsEnabled) {
 	        
 	    	//initialize alert dialog builder
-	    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+	    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 	    	alertDialogBuilder.setTitle("GPS Not Enabled");
 	    	alertDialogBuilder.setMessage("GPS must be enabled to post a note in AirQuotes.");
 	    	alertDialogBuilder.setCancelable(true);
@@ -86,7 +82,7 @@ public class PostActivity extends Fragment {
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();
 					// go back to main activity
-					Intent intent = new Intent(context, MainActivity.class);
+					Intent intent = new Intent(getActivity(), MainActivity.class);
 					startActivity(intent);
 					
 				}
@@ -159,16 +155,16 @@ public class PostActivity extends Fragment {
 			public void done(ParseException e) {
 				if(e == null) {
 					// saved successfully
-					Toast.makeText(context, "Note posted", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "Note posted", Toast.LENGTH_SHORT).show();
 				}
 				else {
 					// did not save successfully
-					Toast.makeText(context, "Unable to post note", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Unable to post note", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
 		// go back to main page
-		Intent intent = new Intent(context, MainActivity.class);
+		Intent intent = new Intent(getActivity(), MainActivity.class);
 		startActivity(intent);
 	}
 	

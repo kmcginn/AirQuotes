@@ -23,8 +23,6 @@ import com.parse.ParseQuery;
 
 public class FindActivity extends Fragment{
 
-	final Context context = getActivity();
-	
 	private ArrayAdapter<String> listAdapter;
 	
 	// This is the Adapter being used to display the list's data
@@ -46,7 +44,7 @@ public class FindActivity extends Fragment{
 		 // get ListView from activity's View
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         // init arraylist adapter
-        listAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
+        listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
         
@@ -73,9 +71,9 @@ public class FindActivity extends Fragment{
         		}
         		else {
         			//failure
-        			Toast.makeText(context, "Unable to retrieve notes", Toast.LENGTH_LONG).show();
+        			Toast.makeText(getActivity(), "Unable to retrieve notes", Toast.LENGTH_LONG).show();
         			// go back to main screen
-        			Intent intent = new Intent(context, MainActivity.class);
+        			Intent intent = new Intent(getActivity(), MainActivity.class);
         			startActivity(intent);
         		}
         	}

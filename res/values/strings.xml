@@ -9,5 +9,7 @@
     <string name="enter_m">Enter message</string>
     <string name="m_button">Post</string>
     <string name="title_activity_find">All Messages</string>
+    <string name="title_section1">Messages</string>
+    <string name="title_section2">Map</string>
 
 </resources>
