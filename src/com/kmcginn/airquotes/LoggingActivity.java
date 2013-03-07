@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -19,6 +21,8 @@ public class LoggingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_logging);
+		Parse.initialize(this, "AyI8XoEioHWsBFl7PmQWMLbiJ6woG6O7uJFfqAYK", 
+				"nzKyPzUYD5UUJIJSxZ8jUqCp9rWQxGXc7XnmdA85");
 	}
 
 	@Override
@@ -28,7 +32,7 @@ public class LoggingActivity extends Activity {
 		return true;
 	}
 
-	public void logInClick() {
+	public void logInClick(View view) {
 		EditText addressText = (EditText)findViewById(R.id.emailText);
 		String address = addressText.getText().toString();	
 		EditText passText = (EditText)findViewById(R.id.passText);
@@ -50,7 +54,7 @@ public class LoggingActivity extends Activity {
 		
 	}
 	
-	public void signUpClick() {
+	public void signUpClick(View view) {
 		// get text from user's EditText box
 		EditText addressText = (EditText)findViewById(R.id.emailText);
 		String address = addressText.getText().toString();	

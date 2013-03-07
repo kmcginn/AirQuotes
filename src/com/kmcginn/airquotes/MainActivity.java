@@ -14,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 
 import com.google.android.gms.maps.SupportMapFragment;
-import com.parse.Parse;
 
 public class MainActivity extends FragmentActivity implements 
 	ActionBar.TabListener {	
@@ -28,9 +27,8 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		// set up Parse
-		Parse.initialize(this, "AyI8XoEioHWsBFl7PmQWMLbiJ6woG6O7uJFfqAYK", 
-				"nzKyPzUYD5UUJIJSxZ8jUqCp9rWQxGXc7XnmdA85");
+		// TODO: make THIS one launch first, launch login activity if no user information
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
