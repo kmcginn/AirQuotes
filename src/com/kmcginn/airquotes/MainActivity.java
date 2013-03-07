@@ -5,7 +5,6 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,11 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.View;
 
-import com.kmcginn.airquotes.FindActivity;
-import com.kmcginn.airquotes.PostActivity;
-
+import com.google.android.gms.maps.SupportMapFragment;
 import com.parse.Parse;
 
 public class MainActivity extends FragmentActivity implements 
@@ -77,19 +73,6 @@ public class MainActivity extends FragmentActivity implements
 		return true;
 	}
 	
-	// called when Post button is clicked
-	public void goToMessage(View view) {
-		// go to activity for posting messages
-		Intent intent = new Intent(this, PostActivity.class);
-		startActivity(intent);
-	}
-
-	//called when View button is clicked
-	public void goToList(View view) {
-		// go to activity that lists all messages
-		Intent intent = new Intent(this, FindActivity.class);
-		startActivity(intent);
-	}
 
 	@Override
 	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
@@ -99,7 +82,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO switch to tab
 		
 	}
@@ -126,10 +109,10 @@ public class MainActivity extends FragmentActivity implements
 			
 			switch(position) {
 			case 0:
-				fragment = new PostActivity();
+				fragment = new FindActivity();
 				break;
 			case 1:
-				fragment = new FindActivity();
+				fragment = SupportMapFragment.newInstance();
 				break;
 			default:
 				fragment = new Fragment();
