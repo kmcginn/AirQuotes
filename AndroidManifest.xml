@@ -64,6 +64,19 @@
             android:name="com.kmcginn.airquotes.MapFragment"
             android:label="@string/title_activity_map_fragment" >
         </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.LogInActivity"
+            android:label="@string/title_activity_log_in" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.LoggingActivity"
+            android:label="@string/title_activity_logging" >
+        </activity>
     </application>
 
 </manifest>
