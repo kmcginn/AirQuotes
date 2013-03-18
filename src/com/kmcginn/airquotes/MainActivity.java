@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,15 +13,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 public class MainActivity extends FragmentActivity implements 
 	ActionBar.TabListener {	
 	
 	SectionsPagerAdapter mSectionsPagerAdapter;
-	
+	ParseObject messageHolder;
+	private double lat;
+	private double lng;
 	ViewPager mViewPager;
+	Context context = this;
 
 	
 	@Override
@@ -90,6 +101,32 @@ public class MainActivity extends FragmentActivity implements
 		//Auto-generated method stub
 		//do nothing
 		
+	}
+	
+public void postMessage(View view) {
+		
+		// get text from user's EditText box
+		EditText editText = (EditText) findViewById(R.id.messageBox);
+		String message = editText.getText().toString();		
+		// gather message info for Parse
+		messageHolder = new ParseObject("Message");
+		// gather location info for Parse
+		ParseGeoPoint point = new ParseGeoPoint(lat, lng);
+		messageHolder.put("text", message);
+		messageHolder.put("location", point);
+		// save it!
+		messageHolder.saveInBackground(new SaveCallback() {
+			public void done(ParseException e) {
+				if(e == null) {
+					// saved successfully
+					Toast.makeText(context, "Note posted", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					// did not save successfully
+					Toast.makeText(context, "Unable to post note", Toast.LENGTH_LONG).show();
+				}
+			}
+		});
 	}
 	
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -84,9 +84,6 @@ public class FindActivity extends Fragment{
         		else {
         			//failure
         			Toast.makeText(getActivity(), "Unable to retrieve notes", Toast.LENGTH_LONG).show();
-        			// go back to main screen
-        			Intent intent = new Intent(getActivity(), MainActivity.class);
-        			startActivity(intent);
         		}
         	}
         });
@@ -213,9 +210,6 @@ public class FindActivity extends Fragment{
 				}
 			}
 		});
-		// go back to main page
-		Intent intent = new Intent(getActivity(), MainActivity.class);
-		startActivity(intent);
 	}
 	/*
 	@Override
