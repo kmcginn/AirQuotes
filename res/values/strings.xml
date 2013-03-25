@@ -20,5 +20,8 @@
     <string name="sign_up">Sign Up</string>
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="title_activity_logging">LoggingActivity</string>
+    <string name="title_activity_settings_fragment">SettingsFragment</string>
+    <string name="add_friends">Enter Friend\'s Email</string>
+    <string name="friend_button">Add Friend</string>
 
 </resources>
