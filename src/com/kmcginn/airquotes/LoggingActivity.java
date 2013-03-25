@@ -43,6 +43,7 @@ public class LoggingActivity extends Activity {
 			    if (user != null) {
 			      // Hooray! The user is logged in.
 			    	Intent intent= new Intent(context, MainActivity.class);
+			    	intent.putExtra("user", user.getEmail());
 			    	startActivity(intent);
 			    } else {
 			      // Signup failed. Look at the ParseException to see what happened.

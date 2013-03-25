@@ -27,6 +27,8 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class FindActivity extends Fragment{
@@ -36,6 +38,7 @@ public class FindActivity extends Fragment{
 	private LocationManager locationManager;
 	private double lat;
 	private double lng;
+	private ParseUser user;
 	
 	// This is the Adapter being used to display the list's data
     SimpleCursorAdapter mAdapter;
@@ -187,7 +190,7 @@ public class FindActivity extends Fragment{
 	
 	/* Run when post button is clicked */
 	public void postMessage(View view) {
-		
+		user= ParseUser.getCurrentUser();
 		// get text from user's EditText box
 		EditText editText = (EditText) getView().findViewById(R.id.messageBox);
 		String message = editText.getText().toString();		
@@ -197,6 +200,13 @@ public class FindActivity extends Fragment{
 		ParseGeoPoint point = new ParseGeoPoint(lat, lng);
 		messageHolder.put("text", message);
 		messageHolder.put("location", point);
+		messageHolder.put("user", user);
+
+		// add to user relation
+		ParseRelation relation = user.getRelation("messages");
+		relation.add(messageHolder);
+		user.saveInBackground();
+		
 		// save it!
 		messageHolder.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {

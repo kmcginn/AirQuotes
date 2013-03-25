@@ -17,10 +17,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.R.string;
 import com.parse.SaveCallback;
 
 public class MainActivity extends FragmentActivity implements 
@@ -32,6 +32,7 @@ public class MainActivity extends FragmentActivity implements
 	private double lng;
 	ViewPager mViewPager;
 	Context context = this;
+	String user;
 
 	
 	@Override
@@ -39,7 +40,10 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		// TODO: make THIS one launch first, launch login activity if no user information
-		
+		Bundle extras = getIntent().getExtras();
+		if (extras!=null){
+		    user = extras.getString("user");			
+		}
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -114,6 +118,7 @@ public void postMessage(View view) {
 		ParseGeoPoint point = new ParseGeoPoint(lat, lng);
 		messageHolder.put("text", message);
 		messageHolder.put("location", point);
+		messageHolder.put("user", user);
 		// save it!
 		messageHolder.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {
@@ -138,7 +143,7 @@ public void postMessage(View view) {
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-						
+
 			//INIT FRAGMENT TYPE BASED ON POSITION
 			Fragment fragment;
 			
@@ -154,6 +159,8 @@ public void postMessage(View view) {
 			}
 			
 			Bundle args = new Bundle();
+			args.putString("user", user);
+
 			
 			//example of how to add arguments to fragments, if we need it
 			//args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
