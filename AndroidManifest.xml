@@ -80,10 +80,8 @@
         <activity
             android:name="com.kmcginn.airquotes.SettingsFragment"
             android:label="@string/title_activity_settings_fragment"
-            android:parentActivityName="android.support.v4.app.FragmentActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.support.v4.app.FragmentActivity" />
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            
         </activity>
     </application>
 

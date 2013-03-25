@@ -233,8 +233,9 @@ public class MainActivity extends FragmentActivity implements
 					Toast.makeText(context, "Note posted", Toast.LENGTH_SHORT).show();
 				}
 				else {
+				
 					// did not save successfully
-					Toast.makeText(context, "Unable to post note", Toast.LENGTH_LONG).show();
+					Toast.makeText(context, "Unable to post note: " + e.getMessage(), Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -260,6 +261,11 @@ public class MainActivity extends FragmentActivity implements
 			case 1:
 				fragment = MyMapFragment.newInstance(loc);
 				break;
+			/* TODO: figure out why SettingsFragment cannot be cast to a Fragment
+			case 2:
+				fragment = (Fragment) SettingsFragment.newInstance();
+				break;
+				*/
 			default:
 				fragment = new Fragment();
 			}

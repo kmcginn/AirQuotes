@@ -61,7 +61,7 @@ public class FindActivity extends Fragment{
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
         
-        // setup parse query (for all objects)
+        // setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
         //set distance away
         query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);

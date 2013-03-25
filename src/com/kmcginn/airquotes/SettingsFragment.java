@@ -12,13 +12,12 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment{
 
 	private ParseUser user;
 
@@ -27,9 +26,19 @@ public class SettingsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 	}
+	
+	public SettingsFragment(){
+		super();
+	}
+	
+	public static SettingsFragment newInstance() {
+		SettingsFragment frag = new SettingsFragment();
+		return frag;
+		
+	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View settingsView = inflater.inflate(R.layout.activity_find, container, false);
+		View settingsView = inflater.inflate(R.layout.settings_fragment, container, false);
 
 		
 		return settingsView;
@@ -78,7 +87,7 @@ public class SettingsFragment extends Fragment {
         });
 		
 	}
-	/**
+	/*
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	/*
