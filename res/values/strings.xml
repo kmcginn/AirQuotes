@@ -24,5 +24,11 @@
     <string name="title_activity_settings_fragment">SettingsFragment</string>
     <string name="add_friends">Enter Friend\'s Email</string>
     <string name="friend_button">Add Friend</string>
+    <string name="title_activity_comment_view">CommentViewActivity</string>
+    <string name="done_button">Done</string>
+    <string name="base_post_text">Comment</string>
+    <string name="base_username_text">username</string>
+    <string name="base_point_value_text">0</string>
+    <string name="base_date_text">12-21-12 5:00pm</string>
 
 </resources>
