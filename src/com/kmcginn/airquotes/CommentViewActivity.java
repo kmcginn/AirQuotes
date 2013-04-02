@@ -6,10 +6,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -29,14 +28,13 @@ import com.parse.SaveCallback;
 public class CommentViewActivity extends Activity {
 	Context context= this;
 	ParseObject post;
-	String postID;
-	String postText;
-	String comment;
-	String username;
-	String date;
-	int altitude;
+	String postID = "0";
+	String postText = "";
+	String comment = "";
+	String username = "";
+	String date = "";
+	int altitude = 0;
 	private ArrayAdapter<String> listAdapter;
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,37 +42,56 @@ public class CommentViewActivity extends Activity {
 		setContentView(R.layout.activity_comment_view);
 		
 		// load in the post's id
-		Bundle extras = getIntent().getExtras();
-		if (extras!=null){
-		    postID = extras.getString("POSTID");			
+
+		Intent intent = getIntent();
+		try{
+			postID = intent.getStringExtra("objId");
+			Log.e("post", "Post id: " + postID);
+		} catch(Exception e1) {
+			Log.e("newAct", "Unable to get objectId from previous activity: " + e1);			
 		}
-		
 		// query to get full post information
         ParseQuery query = new ParseQuery("Message");
-        query.whereEqualTo("objectId", postID);
-     // find in the background
-        query.findInBackground(new FindCallback() {
-        	public void done(List<ParseObject> objects, ParseException e) {
+        query.getInBackground(postID, new GetCallback() {
+        	public void done(ParseObject o, ParseException e) {
         		if(e == null) {
         			//success
         			
         			// add from query to list adapter
         			try {
-	        			for(Object o: objects){
+	        			
 	        				// get the message text
-	        				postText = ((ParseObject) o).getString("text").toString();
+	        				postText = o.getString("text").toString();
+	        				Log.e("post", "postText: " + postText);
 	        				//get the message's user
-	        				username = ((ParseObject) o).getString("user").toString();
+	        				username = o.getString("user").toString();
 	        				//get the message's date
-	        				date = ((ParseObject) o).getString("createdOn").toString();
+	        				date = o.getCreatedAt().toString();
 	        				//get the message's altitude
-	        				altitude = ((ParseObject) o).getInt("altitude");
+	        				altitude = o.getInt("altitude");
 	        				// save parseObject
-	        				post= (ParseObject) o;
-	        			}
+	        				post= o;
+	        				
+	        				//setup the gui
+	        				 try{
+	        			        	// put new info in text boxes
+	        			        	TextView postTextBox = (TextView) findViewById(R.id.postText);
+	        			        	Log.e("gui", "Text for box: " + postText);
+	        			        	postTextBox.setText(postText);
+	        			        	TextView dateTextBox = (TextView) findViewById(R.id.dateText);
+	        				        dateTextBox.setText(date);
+	        				        TextView userTextBox = (TextView) findViewById(R.id.usernameText);
+	        				        userTextBox.setText(username);
+	        				        TextView altTextBox = (TextView) findViewById(R.id.altText);
+	        				        altTextBox.setText(Integer.toString(altitude));
+	        			        } catch(Exception e2) {
+	        			        	Log.e("gui", "Unable to intialize text boxes: " + e2);
+	        			        	
+	        			        }
+	        			
         			}
         			catch (Exception e1){
-            			Toast.makeText(context, "Exception while retrieving post: " + e1.getMessage(), Toast.LENGTH_LONG).show();
+            			Log.e("query", "Exception while retrieving post: " + e1.getMessage());
             			Intent intent= new Intent(context, MainActivity.class);
             	    	startActivity(intent);
         			}

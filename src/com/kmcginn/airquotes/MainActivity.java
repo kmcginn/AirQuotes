@@ -38,7 +38,6 @@ import com.parse.SaveCallback;
 
 public class MainActivity extends FragmentActivity implements 
 	ActionBar.TabListener {	
-	
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ParseObject messageHolder;
 	private LatLng loc;

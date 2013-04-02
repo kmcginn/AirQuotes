@@ -1,32 +1,36 @@
 package com.kmcginn.airquotes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 public class FindActivity extends Fragment{
-
 	private ArrayAdapter<String> listAdapter;
 	ParseObject messageHolder;
-	private ParseUser user;
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
+	private ArrayList<String> objectIdList = new ArrayList<String>();
 	
 	// This is the Adapter being used to display the list's data
     SimpleCursorAdapter mAdapter;
@@ -56,6 +60,7 @@ public class FindActivity extends Fragment{
         listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(mMessageClickedHandler);
         
         // setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
@@ -67,14 +72,26 @@ public class FindActivity extends Fragment{
         		if(e == null) {
         			//success
         			
+        			//clear old list of objectIds
+        			objectIdList.clear();
+        			
         			// add all objects from query to list adapter
-        			for(Object o: objects){
+        			for(ParseObject o: objects){
         				// get the message
-        				String text = ((ParseObject) o).getString("text").toString();
+        				String text = o.getString("text").toString();
         				// get the location
-        				ParseGeoPoint pt = ((ParseObject) o).getParseGeoPoint("location");
+        				ParseGeoPoint pt = o.getParseGeoPoint("location");
         				// add a string combining the message and location
         				listAdapter.add(text + " (" + pt.getLatitude() + "," + pt.getLongitude() + ")");
+        				
+        				try{
+        				// add message's parse id to the array
+        					String objid = o.getObjectId();
+        					objectIdList.add(objid);
+        				} catch(Exception e1) {
+        					Log.e("list", "Unable to add objectId to arraylist: " + e1);
+        					
+        				}
         			}
         			
         			//indicate that the list adapter has changed its data, so the listview will update
@@ -92,6 +109,16 @@ public class FindActivity extends Fragment{
 	}	
 	
 
+	private OnItemClickListener mMessageClickedHandler = new OnItemClickListener() {
+	    public void onItemClick(AdapterView parent, View v, int position, long id) {
+	        //TODO: make clicking on the list launch CommentViewActivity
+	    	//need argument to be objectid for the message
+	    	
+	    	Intent intent = new Intent(getActivity(), CommentViewActivity.class);
+	    	intent.putExtra("objId", objectIdList.get(position));
+	    	FindActivity.this.startActivity(intent);
+	    }
+	};
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
