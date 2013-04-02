@@ -32,5 +32,7 @@
     <string name="base_date_text">12-21-12 5:00pm</string>
     <string name="climb_button">Climb</string>
     <string name="dive_button">Dive</string>
+    <string name="base_comment">Insert comment here...</string>
+    <string name="add_comment_button">Add Comment</string>
 
 </resources>

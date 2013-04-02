@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/postText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/doneButton"
@@ -55,24 +55,53 @@
         android:text="@string/base_point_value_text" />
 
     <Button
-        android:id="@+id/upButton"
+        android:id="@+id/climbButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/dateText"
-        android:text="@string/climb_button" 
-        android:onClick="onClimbClicked"/>
+        android:onClick="onClimbClicked"
+        android:text="@string/climb_button" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/diveButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/upButton"
-        android:layout_alignBottom="@+id/upButton"
+        android:layout_alignBaseline="@+id/climbButton"
+        android:layout_alignBottom="@+id/climbButton"
         android:layout_alignParentRight="true"
-        android:text="@string/dive_button"
-        android:onClick="onDiveClicked" />
+        android:onClick="onDiveClicked"
+        android:text="@string/dive_button" />
+
+    <Button
+        android:id="@+id/addCommentButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/CommentEdit"
+        android:text="@string/add_comment_button" 
+        android:onClick="onAddCommentClicked"/>
+
+    <EditText
+        android:id="@+id/CommentEdit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/addCommentButton"
+        android:layout_below="@+id/climbButton"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:hint="@string/base_comment" />
+
+    <ListView
+        android:id="@+id/commentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addCommentButton"
+        android:layout_centerHorizontal="true" >
+
+    </ListView>
 
 </RelativeLayout>
