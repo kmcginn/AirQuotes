@@ -2,7 +2,7 @@ package com.kmcginn.airquotes;
 
 import java.util.List;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +37,7 @@ public class SettingsFragment extends Fragment{
 		
 	}
 
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View settingsView = inflater.inflate(R.layout.settings_fragment, container, false);
 

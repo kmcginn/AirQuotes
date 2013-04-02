@@ -25,7 +25,7 @@
         android:id="@+id/friendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@id/friendText"
         android:layout_centerHorizontal="true"
         android:text="@string/friend_button" 
         android:onClick="addFriendClicked"/>

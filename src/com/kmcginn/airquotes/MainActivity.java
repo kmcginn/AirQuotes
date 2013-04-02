@@ -1,5 +1,6 @@
 package com.kmcginn.airquotes;
 
+import java.util.List;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -25,9 +26,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class MainActivity extends FragmentActivity implements 
@@ -40,7 +45,7 @@ public class MainActivity extends FragmentActivity implements
 	Context context = this;
 	String user;
 	private LocationManager locationManager;
-
+	private ParseUser currUser;
 
 	
 	@Override
@@ -241,6 +246,51 @@ public class MainActivity extends FragmentActivity implements
 		});
 	}
 	
+	public void addFriendClicked(View view){
+		currUser= ParseUser.getCurrentUser();
+		
+			
+		// setup parse query (for all objects)
+        ParseQuery query = new ParseQuery("User");
+        // find them in the background
+        query.findInBackground(new FindCallback() {
+        	public void done(List<ParseObject> objects, ParseException e) {
+        		if(e == null) {
+        			//success
+        			ParseRelation relation = currUser.getRelation("friends");
+        			EditText editText = (EditText) findViewById(R.id.friendText);
+        			String friend = editText.getText().toString();
+        			boolean found= false;
+        			// add all objects from query to list adapter
+        			for(Object o: objects){
+        				// get the username
+        				String text = ((ParseObject) o).getString("username").toString();
+        				// check if correct user
+        				if (text==friend){
+        					relation.add((ParseUser) o);
+        					currUser.saveInBackground();
+        					found=true;
+                			Toast.makeText(context, "Friend Added!", Toast.LENGTH_LONG).show();
+
+        				}
+        				// add a string combining the message and location
+        			}
+        			if (!found){
+            			Toast.makeText(context, "Unable to find user", Toast.LENGTH_LONG).show();
+
+        			}
+        			//indicate that the list adapter has changed its data, so the listview will update
+        		}
+        		else {
+        			//failure
+        			Toast.makeText(context, "Unable to find user", Toast.LENGTH_LONG).show();
+        		}
+        	}
+        });
+		
+	}
+	
+	
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
@@ -252,7 +302,7 @@ public class MainActivity extends FragmentActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 
 			//INIT FRAGMENT TYPE BASED ON POSITION
-			Fragment fragment;
+			Fragment fragment = new Fragment();
 			
 			switch(position) {
 			case 0:
@@ -261,11 +311,11 @@ public class MainActivity extends FragmentActivity implements
 			case 1:
 				fragment = MyMapFragment.newInstance(loc);
 				break;
-			/* TODO: figure out why SettingsFragment cannot be cast to a Fragment
+			// TODO: figure out why SettingsFragment cannot be cast to a Fragment
 			case 2:
-				fragment = (Fragment) SettingsFragment.newInstance();
+				fragment = SettingsFragment.newInstance();
 				break;
-				*/
+				
 			default:
 				fragment = new Fragment();
 			}
@@ -282,8 +332,8 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			// Show 2 total pages.
-			return 2;
+			// Show 3 total pages.
+			return 3;
 		}
 
 		@Override
@@ -294,6 +344,8 @@ public class MainActivity extends FragmentActivity implements
 				return getString(R.string.title_section1).toUpperCase(l);
 			case 1:
 				return getString(R.string.title_section2).toUpperCase(l);
+			case 2:
+				return getString(R.string.title_section3).toUpperCase(l);
 			}
 			return null;
 		}

@@ -11,6 +11,7 @@
     <string name="title_activity_find">All Messages</string>
     <string name="title_section1">Messages</string>
     <string name="title_section2">Map</string>
+    <string name="title_section3">Friends</string>
     <string name="title_activity_map_fragment">MapFragment</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
