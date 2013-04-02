@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -109,7 +110,7 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO switch to tab
+		mViewPager.setCurrentItem(tab.getPosition());
 		
 	}
 
@@ -230,6 +231,7 @@ public class MainActivity extends FragmentActivity implements
 		messageHolder.put("text", message);
 		messageHolder.put("location", point);
 		messageHolder.put("user", user);
+		messageHolder.put("altitude", 1);
 		// save it!
 		messageHolder.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {
@@ -250,40 +252,38 @@ public class MainActivity extends FragmentActivity implements
 		currUser= ParseUser.getCurrentUser();
 		
 			
-		// setup parse query (for all objects)
-        ParseQuery query = new ParseQuery("User");
+		// setup parse query
+        ParseQuery query = ParseUser.getQuery();
+        //limit to user we are trying to add as a friend
+        EditText editText = (EditText) findViewById(R.id.friendText);
+		String friend = editText.getText().toString();
+		Log.e("query", "searching for user: '" + friend + "'");
+        query.whereEqualTo("username", friend);        
         // find them in the background
         query.findInBackground(new FindCallback() {
         	public void done(List<ParseObject> objects, ParseException e) {
         		if(e == null) {
-        			//success
-        			ParseRelation relation = currUser.getRelation("friends");
-        			EditText editText = (EditText) findViewById(R.id.friendText);
-        			String friend = editText.getText().toString();
-        			boolean found= false;
-        			// add all objects from query to list adapter
-        			for(Object o: objects){
-        				// get the username
-        				String text = ((ParseObject) o).getString("username").toString();
-        				// check if correct user
-        				if (text==friend){
-        					relation.add((ParseUser) o);
+        			
+        			if(objects.size() == 1) {
+        				//success	
+        				ParseRelation relation = currUser.getRelation("friends");
+        			
+        			
+        				// add all objects from query to list adapter
+        				for(ParseObject o: objects){
+        					//add friend to user
+        					relation.add(o);
         					currUser.saveInBackground();
-        					found=true;
-                			Toast.makeText(context, "Friend Added!", Toast.LENGTH_LONG).show();
-
+        					Toast.makeText(context, "Friend Added!", Toast.LENGTH_LONG).show();
         				}
-        				// add a string combining the message and location
         			}
-        			if (!found){
-            			Toast.makeText(context, "Unable to find user", Toast.LENGTH_LONG).show();
-
+        			else {
+            			Toast.makeText(context, "No user found. Result length: " + objects.size(), Toast.LENGTH_LONG).show();
         			}
-        			//indicate that the list adapter has changed its data, so the listview will update
         		}
         		else {
         			//failure
-        			Toast.makeText(context, "Unable to find user", Toast.LENGTH_LONG).show();
+        			Toast.makeText(context, "Unable to access database", Toast.LENGTH_LONG).show();
         		}
         	}
         });
@@ -311,7 +311,6 @@ public class MainActivity extends FragmentActivity implements
 			case 1:
 				fragment = MyMapFragment.newInstance(loc);
 				break;
-			// TODO: figure out why SettingsFragment cannot be cast to a Fragment
 			case 2:
 				fragment = SettingsFragment.newInstance();
 				break;
