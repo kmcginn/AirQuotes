@@ -9,20 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 public class FindActivity extends Fragment{
 
@@ -96,40 +92,6 @@ public class FindActivity extends Fragment{
 	}	
 	
 
-	
-	/* Run when post button is clicked */
-	public void postMessage(View view) {
-		user= ParseUser.getCurrentUser();
-		// get text from user's EditText box
-		EditText editText = (EditText) getView().findViewById(R.id.messageBox);
-		String message = editText.getText().toString();		
-		// gather message info for Parse
-		messageHolder = new ParseObject("Message");
-		// gather location info for Parse
-		ParseGeoPoint point = new ParseGeoPoint(loc.latitude, loc.longitude);
-		messageHolder.put("text", message);
-		messageHolder.put("location", point);
-		messageHolder.put("user", user);
-
-		// add to user relation
-		ParseRelation relation = user.getRelation("messages");
-		relation.add(messageHolder);
-		user.saveInBackground();
-		
-		// save it!
-		messageHolder.saveInBackground(new SaveCallback() {
-			public void done(ParseException e) {
-				if(e == null) {
-					// saved successfully
-					Toast.makeText(getActivity(), "Note posted", Toast.LENGTH_SHORT).show();
-				}
-				else {
-					// did not save successfully
-					Toast.makeText(getActivity(), "Unable to post note", Toast.LENGTH_LONG).show();
-				}
-			}
-		});
-	}
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
