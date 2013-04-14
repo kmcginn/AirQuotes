@@ -2,6 +2,10 @@ package com.kmcginn.airquotes;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
@@ -24,6 +29,8 @@ public class MyMapFragment extends SupportMapFragment {
 	private GoogleMap mMap;
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
+	
+	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
 	
 	public MyMapFragment() {
 		super();
@@ -95,6 +102,41 @@ public class MyMapFragment extends SupportMapFragment {
         		}
         	}
         });
+        
+        
+        FeedFetcher feedFetcher = new FeedFetcher();
+        JSONArray array = feedFetcher.makeHTTPRequest(COUPON_URL);
+        JSONObject myObj = new JSONObject();
+        JSONArray coupons = new JSONArray();
+        double lt = 0;
+        double ln = 0;
+        String locName = "";
+        for(int i = 0; i < array.length(); i++) {
+        	try {
+				myObj = array.getJSONObject(i);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        	try {
+				lt = myObj.getDouble("lat");
+				locName = myObj.getString("name");
+				ln = myObj.getDouble("lon");
+				coupons = myObj.getJSONArray("coupons");
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        	mMap.addMarker(new MarkerOptions()
+        	.position(new LatLng(lt, ln))
+        	.title(locName)
+        	.snippet(coupons.length() + " coupon(s) available")
+        	.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
+        
+        
 	}
 
 }
