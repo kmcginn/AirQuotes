@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -39,9 +39,7 @@ public class CommentViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-		StrictMode.setThreadPolicy(policy); 
+		
 		setContentView(R.layout.activity_comment_view);
     	Log.e("loc", "beginning of oncreate");
 
@@ -59,11 +57,11 @@ public class CommentViewActivity extends Activity {
 		// query to get full post information
         ParseQuery query = new ParseQuery("Message");
         try {
-			post = query.get(postID);
-		} catch (Exception e3) {
-			Log.e("post","Post query raised an exception: "+e3);
-		}
-        	
+			query.getInBackground(postID, new GetCallback() {
+				
+	        	public void done(ParseObject post, ParseException e) {
+
+				if (e == null){
         			try {
 	        			
 	        				// get the message text
@@ -98,7 +96,14 @@ public class CommentViewActivity extends Activity {
             			Intent intent2= new Intent(context, MainActivity.class);
             	    	startActivity(intent2);
         			}
-      
+				}
+				else	{
+					Toast.makeText(context, "Query failed", Toast.LENGTH_SHORT).show();
+				}
+			}});
+			} catch (Exception e3) {
+				Log.e("post","Post query raised an exception: "+e3);
+			}
         		
         		/*else {
         			//failure
@@ -107,7 +112,7 @@ public class CommentViewActivity extends Activity {
         	    	startActivity(intent3);
         		}*/
     	Log.e("loc", "after query");
-
+    	/*
         // put new info in text boxes
         try {
 	        TextView postTextBox = (TextView) findViewById(R.id.postText);
@@ -132,7 +137,7 @@ public class CommentViewActivity extends Activity {
 	        altTextBox.setText(Integer.toString(altitude));
         } catch (Exception e1){
         	Log.e("post", "Unable to set altitude Text in post: "+e1);
-        }
+        } */
     	Log.e("loc", "after sets");
 
         //
