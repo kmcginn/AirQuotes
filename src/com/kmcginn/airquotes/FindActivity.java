@@ -39,7 +39,6 @@ public class FindActivity extends Fragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);      
-	
 	}
 	
 	public static FindActivity newInstance(LatLng newLoc) {
@@ -61,12 +60,15 @@ public class FindActivity extends Fragment{
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(mMessageClickedHandler);
-        
         // setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
-        //set distance away
-        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
-        // find them in the background
+        try {
+	        //set distance away
+	        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
+        } catch (Exception e1){
+			Log.e("loc", "Unable to get location: " + e1);
+        }
+    	// find them in the background
         query.findInBackground(new FindCallback() {
         	public void done(List<ParseObject> objects, ParseException e) {
         		if(e == null) {
