@@ -242,10 +242,10 @@ public class CommentViewActivity extends Activity {
     }
 	
 	public void onClimbClicked(View view){
-		//TODO: indicate that it needs to be incremented, don't work on current value!
+		
 		altitude+=1;
 		
-		post.put("altitude", altitude);
+		post.increment("altitude");
 		post.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {
 				if(e == null) {
@@ -266,10 +266,9 @@ public class CommentViewActivity extends Activity {
     }
 	
 	public void onDiveClicked(View view){
-		//TODO: indicate that it needs to be decremented, don't work on the current value!
-		altitude-=1;
-		
-		post.put("altitude", altitude);
+				
+		altitude -= 1;
+		post.increment("altitude", -1);
 		post.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {
 				if(e == null) {
