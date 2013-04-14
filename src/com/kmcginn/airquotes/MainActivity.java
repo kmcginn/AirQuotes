@@ -52,6 +52,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
 		// TODO: make THIS one launch first, launch login activity if no user information
 		Bundle extras = getIntent().getExtras();
 		if (extras!=null){
@@ -127,7 +128,9 @@ public class MainActivity extends FragmentActivity implements
 	    // initialize location manager
 	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 	    // check if GPS is enabled
-	    final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	    final boolean gpsEnabled;
+	    
+	    gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
 	    // GPS not enabled!
 	    if (!gpsEnabled) {
@@ -169,15 +172,16 @@ public class MainActivity extends FragmentActivity implements
 	    	//show it
 	    	alertDialog.show();
 	    }
-	    
+
 	    //TODO: get updates from last known, network, AND GPS
 	    
 	    // get updates from the listener
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,10,listener);
-		
+		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,10000,10,listener);
+
 		//TODO: change initial location?
-		Location lastKnown = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); 
+		Location lastKnown = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER); 
 		loc = new LatLng(lastKnown.getLatitude(),lastKnown.getLongitude());
+
 	}
 
 	@Override
