@@ -107,6 +107,7 @@ public class MyMapFragment extends SupportMapFragment {
         FeedFetcher feedFetcher = new FeedFetcher();
         JSONArray array = feedFetcher.makeHTTPRequest(COUPON_URL);
         JSONObject myObj = new JSONObject();
+        JSONArray coupons = new JSONArray();
         double lt = 0;
         double ln = 0;
         String locName = "";
@@ -120,25 +121,18 @@ public class MyMapFragment extends SupportMapFragment {
         	
         	try {
 				lt = myObj.getDouble("lat");
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        	try {
-				ln = myObj.getDouble("lon");
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        	try {
 				locName = myObj.getString("name");
+				ln = myObj.getDouble("lon");
+				coupons = myObj.getJSONArray("coupons");
 			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+        	
         	mMap.addMarker(new MarkerOptions()
         	.position(new LatLng(lt, ln))
         	.title(locName)
+        	.snippet(coupons.length() + " coupon(s) available")
         	.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
         
