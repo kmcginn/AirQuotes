@@ -81,10 +81,12 @@ public class FindActivity extends Fragment{
         			for(ParseObject o: objects){
         				// get the message
         				String text = o.getString("text").toString();
+        				// get the author
+        				String author = o.getString("user").toString();
         				// get the location
         				ParseGeoPoint pt = o.getParseGeoPoint("location");
         				// add a string combining the message and location
-        				listAdapter.add(text + " (" + pt.getLatitude() + "," + pt.getLongitude() + ")");
+        				listAdapter.add(text + "\n" + author);
         				
         				try{
         				// add message's parse id to the array
