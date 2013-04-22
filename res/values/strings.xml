@@ -34,5 +34,6 @@
     <string name="dive_button">Dive</string>
     <string name="base_comment">Insert comment here...</string>
     <string name="add_comment_button">Add Comment</string>
+    <string name="view_friends_radio">View Friend Posts Only</string>
 
 </resources>

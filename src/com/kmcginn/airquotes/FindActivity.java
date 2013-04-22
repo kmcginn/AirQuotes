@@ -1,6 +1,7 @@
 package com.kmcginn.airquotes;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -24,6 +25,8 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 public class FindActivity extends Fragment{
 	private ArrayAdapter<String> listAdapter;
@@ -31,6 +34,8 @@ public class FindActivity extends Fragment{
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
 	private ArrayList<String> objectIdList = new ArrayList<String>();
+	boolean friendsOnly;
+	ArrayList <String> friends= new ArrayList<String>();
 	
 	// This is the Adapter being used to display the list's data
     SimpleCursorAdapter mAdapter;
@@ -49,7 +54,7 @@ public class FindActivity extends Fragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+		Log.e("loc","at beginning of onCreateView");
 		//inflate the UI view for the fragment from XML file
 		View findView = inflater.inflate(R.layout.activity_find, container, false);
 		
@@ -59,55 +64,117 @@ public class FindActivity extends Fragment{
         listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
+        
         listView.setOnItemClickListener(mMessageClickedHandler);
+		Log.e("loc","before friends query");
+
+        // get friends list
+        
+        // get current user
+		ParseUser currUser= ParseUser.getCurrentUser();
+	    friendsOnly= (Boolean) currUser.get("viewFriends");
+	    try {
+	        if (friendsOnly){
+		        // get relation and query
+		        ParseRelation friendsRel= currUser.getRelation("friends");
+		        ParseQuery friendsQuery= friendsRel.getQuery();
+		        
+		        friendsQuery.findInBackground(new FindCallback() {
+					public void done(List<ParseObject> users, ParseException e) {
+						if (e == null){
+							for(ParseObject o: users){
+								try {
+								friends.add( o.getString("username"));
+								}
+								catch (Exception e1){
+									Log.e("collection","Couldn't add to collection: "+o.getString("username")+e1);
+								}
+							}
+						}
+						else {
+	        				Log.e("friends", "Unable to upload friends: " + e);
+	
+						}
+						
+					}
+		        	
+		        });
+	        }
+        }
+        catch (Exception e1){
+        	Log.e("user","Exception thrown while getting user information"+e1);
+        }
+		Log.e("loc","after friends query");
+
+        
         // setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
+        
         try {
 	        //set distance away
 	        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
         } catch (Exception e1){
 			Log.e("loc", "Unable to get location: " + e1);
         }
+		Log.e("loc","before find query");
+		if (friendsOnly){
+        	query.whereContainedIn("user", friends);
+        }
     	// find them in the background
+		try {
         query.findInBackground(new FindCallback() {
         	public void done(List<ParseObject> objects, ParseException e) {
+        		Log.e("loc","before if");
+
         		if(e == null) {
         			//success
-        			
+        			Log.e("loc","In Callback");
+
+        			// get user information
         			//clear old list of objectIds
         			objectIdList.clear();
+        			
+        			Log.e("loc","After loading user data");
         			
         			// add all objects from query to list adapter
         			for(ParseObject o: objects){
         				// get the message
-        				String text = o.getString("text").toString();
-        				// get the author
-        				String author = o.getString("user").toString();
-        				// get the location
-        				ParseGeoPoint pt = o.getParseGeoPoint("location");
-        				// add a string combining the message and location
-        				listAdapter.add(text + "\n" + author);
-        				
-        				try{
-        				// add message's parse id to the array
-        					String objid = o.getObjectId();
-        					objectIdList.add(objid);
-        				} catch(Exception e1) {
-        					Log.e("list", "Unable to add objectId to arraylist: " + e1);
-        					
-        				}
+	        			String text = o.getString("text").toString();
+	        			// get the author
+	        			String author = o.getString("user").toString();
+	        			// get the location
+	        			ParseGeoPoint pt = o.getParseGeoPoint("location");
+	        			// add a string combining the message and location
+	        			listAdapter.add(text + "\n" + author);
+	        				
+	        			try{
+	        			// add message's parse id to the array
+	        				String objid = o.getObjectId();
+	        				objectIdList.add(objid);
+	        			} catch(Exception e1) {
+	        				Log.e("list", "Unable to add objectId to arraylist: " + e1);
+	        				
+	        			}
         			}
+        			Log.e("loc","After for loop");
+
         			
         			//indicate that the list adapter has changed its data, so the listview will update
         			listAdapter.notifyDataSetChanged();
         		}
         		else {
         			//failure
+        			Log.e("find","Unable to find posts: "+e);
+
         			Toast.makeText(getActivity(), "Unable to retrieve notes", Toast.LENGTH_LONG).show();
         		}
         	}
         });
-		
+		}
+		catch (Exception e1){
+			Log.e("find","Unable to enter findCallback: "+e1);
+			
+		}
 		//return view to be displayed
 		return findView;
 	}	

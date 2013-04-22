@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -351,6 +352,27 @@ public class MainActivity extends FragmentActivity implements
 			}
 			return null;
 		}
+	}
+	
+	/*public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()) {
+        case R.id.logout:
+            logoutClicked();
+            return true;
+        
+        default:
+            return super.onOptionsItemSelected(item);
+		}
+	}*/
+	
+	public Boolean logoutClicked(MenuItem item){
+		ParseUser.logOut();
+		Toast.makeText(context, "Logged Out", Toast.LENGTH_LONG).show();
+    	Intent intent= new Intent(context, LoggingActivity.class);
+    	startActivity(intent);
+    	
+    	return true;
+
 	}
 }
 

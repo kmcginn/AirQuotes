@@ -2,11 +2,14 @@ package com.kmcginn.airquotes;
 
 import java.util.List;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,15 +19,19 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class SettingsFragment extends Fragment{
 
 	private ParseUser user;
+	CheckBox friendsCheck;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
+		StrictMode.setThreadPolicy(policy); 
 	}
 	
 	public SettingsFragment(){
@@ -40,7 +47,16 @@ public class SettingsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View settingsView = inflater.inflate(R.layout.settings_fragment, container, false);
-
+		
+		try{
+			ParseUser currUser= ParseUser.getCurrentUser();
+	        Boolean friendsOnly= (Boolean) currUser.get("viewFriends");
+	        friendsCheck= (CheckBox) settingsView.findViewById(R.id.viewFriendsCheck);
+			friendsCheck.setChecked(friendsOnly);
+		}
+		catch (Exception e1){
+			Log.e("check","Unable to check the box: "+e1);
+		}
 		
 		return settingsView;
 	}
@@ -87,6 +103,17 @@ public class SettingsFragment extends Fragment{
         	}
         });
 		
+	}
+	
+	public void onPause(){
+		super.onPause();
+		ParseUser currUser= ParseUser.getCurrentUser();
+		currUser.put("viewFriends", ((CheckBox) getView().findViewById(R.id.viewFriendsCheck)).isChecked());
+		try {
+			currUser.save();
+		} catch (ParseException e) {
+			Log.e("check","Unable to saved friend preference: "+e);
+		}
 	}
 	/*
 	 * Set up the {@link android.app.ActionBar}.

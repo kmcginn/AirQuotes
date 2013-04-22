@@ -15,8 +15,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="@string/add_friends" >
+        android:hint="@string/add_friends"
+        android:inputType="textEmailAddress" >
 
         <requestFocus />
     </EditText>
@@ -29,5 +29,13 @@
         android:layout_centerHorizontal="true"
         android:text="@string/friend_button" 
         android:onClick="addFriendClicked"/>
+
+    <CheckBox
+        android:id="@+id/viewFriendsCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/friendText"
+        android:layout_below="@+id/friendButton"
+        android:text="@string/view_friends_radio" />
 
 </RelativeLayout>
