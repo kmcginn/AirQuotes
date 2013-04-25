@@ -2,6 +2,8 @@ package com.kmcginn.airquotes;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -315,7 +317,7 @@ public class MainActivity extends FragmentActivity implements
 			
 			switch(position) {
 			case 0:
-				fragment = FindActivity.newInstance(loc);
+				fragment = MessagesFragment.newInstance(loc);
 				break;
 			case 1:
 				fragment = MyMapFragment.newInstance(loc);
@@ -379,6 +381,7 @@ public class MainActivity extends FragmentActivity implements
     	return true;
 
 	}
+
 }
 
 
