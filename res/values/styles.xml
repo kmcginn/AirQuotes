@@ -16,8 +16,15 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        
     </style>
 
+    <style name="MainTheme" parent="AppBaseTheme">
+        
+        <item name="android:background">@drawable/simple_bg</item>
+        
+    </style>
+    
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
