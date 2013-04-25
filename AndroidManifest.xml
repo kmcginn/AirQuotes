@@ -25,4 +25,68 @@
 
     <uses-permission android:name="com.kmcginn.airquotes.permission.MAPS_RECEIVE" />
 
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.kmcginn.airquotes.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.PostActivity"
+            android:label="@string/title_activity_post"
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kmcginn.airquotes.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.FindActivity"
+            android:label="@string/title_activity_find"
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kmcginn.airquotes.MainActivity" />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCW_rbqOq1qoIgvTb2wjHSTTGuXgTiHZX8" />
+
+        <activity
+            android:name="com.kmcginn.airquotes.MapFragment"
+            android:label="@string/title_activity_map_fragment" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.LogInActivity"
+            android:label="@string/title_activity_log_in" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.LoggingActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.SettingsFragment"
+            android:label="@string/title_activity_settings_fragment"
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.CommentViewActivity"
+            android:label="@string/title_activity_comment_view" >
+        </activity>
+    </application>
+
 </manifest>
