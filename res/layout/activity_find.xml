@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    style="@style/MainTheme"
     tools:context=".PostActivity" >
 
     <LinearLayout
@@ -33,6 +34,7 @@
         android:layout_weight="1.17"
         android:clickable="false"
         android:longClickable="false"
+        
         tools:context=".FindActivity" >
     </ListView>
 
