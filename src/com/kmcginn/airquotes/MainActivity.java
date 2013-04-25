@@ -130,16 +130,27 @@ public class MainActivity extends FragmentActivity implements
 	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 	    // check if GPS is enabled
 	    final boolean gpsEnabled;
+	    final boolean networkEnabled;
+
+		Location lastKnown = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER); 
+		loc = new LatLng(lastKnown.getLatitude(),lastKnown.getLongitude());
 	    
 	    gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
+	    networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+	    
+	    if(gpsEnabled) {
+	    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 10F, listener);
+	    }	    
+	    else if(networkEnabled) {
+	    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000L, 10F, listener);
+	    }	    
 	    // GPS not enabled!
-	    if (!gpsEnabled) {
+	    else if (!gpsEnabled) {
 	        
 	    	//initialize alert dialog builder
 	    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 	    	alertDialogBuilder.setTitle("GPS Not Enabled");
-	    	alertDialogBuilder.setMessage("GPS must be enabled to post a note in AirQuotes.");
+	    	alertDialogBuilder.setMessage("Turn on location services to post a note.");
 	    	alertDialogBuilder.setCancelable(true);
 	    	
 	    	//set behavior of enable button
@@ -158,7 +169,10 @@ public class MainActivity extends FragmentActivity implements
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();
+					// get updates from the passive provider
+					locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,10000,10,listener);
 					
+					//TODO: exit app instead?
 					/*
 					// go back to main activity
 					Intent intent = new Intent(context, MainActivity.class);
@@ -173,16 +187,6 @@ public class MainActivity extends FragmentActivity implements
 	    	//show it
 	    	alertDialog.show();
 	    }
-
-	    //TODO: get updates from last known, network, AND GPS
-	    
-	    // get updates from the listener
-		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,10000,10,listener);
-
-		//TODO: change initial location?
-		Location lastKnown = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER); 
-		loc = new LatLng(lastKnown.getLatitude(),lastKnown.getLongitude());
-
 	}
 
 	@Override
@@ -206,6 +210,7 @@ public class MainActivity extends FragmentActivity implements
 	    public void onLocationChanged(Location location) {
 	    	// update stored values of latitude and longitude
 	    	loc =  new LatLng(location.getLatitude(), location.getLongitude());
+	    	
 	    }
 	    
 	    public void onProviderDisabled(String provider) {

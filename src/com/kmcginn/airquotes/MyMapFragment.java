@@ -68,6 +68,8 @@ public class MyMapFragment extends SupportMapFragment {
 	}
 	
 	private void setUpMap() {
+		
+		mMap.setMyLocationEnabled(true);
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 14));
 		//TODO: add pins
 		// setup parse query (for messages)
