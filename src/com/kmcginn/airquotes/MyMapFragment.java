@@ -14,9 +14,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -138,7 +142,27 @@ public class MyMapFragment extends SupportMapFragment {
         	.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
         
-        
+        mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+        	private float currentZoom = -1;
+
+            @Override
+            public void onCameraChange(CameraPosition pos) {
+                if (pos.zoom != currentZoom){
+                	Toast.makeText(getActivity(), "Zoom changed!", Toast.LENGTH_SHORT).show();
+                    currentZoom = pos.zoom;
+                }
+            }
+        	
+        });
+        mMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+
+			@Override
+			public void onInfoWindowClick(Marker arg0) {
+				
+				
+			}        	
+        	
+        });
 	}
 
 }

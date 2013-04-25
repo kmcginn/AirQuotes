@@ -155,12 +155,14 @@ public class FindActivity extends Fragment{
 	        				Log.e("list", "Unable to add objectId to arraylist: " + e1);
 	        				
 	        			}
+	        			
+	        			//indicate that the list adapter has changed its data, so the listview will update
+	        			listAdapter.notifyDataSetChanged();
         			}
         			Log.e("loc","After for loop");
 
         			
-        			//indicate that the list adapter has changed its data, so the listview will update
-        			listAdapter.notifyDataSetChanged();
+        			
         		}
         		else {
         			//failure
