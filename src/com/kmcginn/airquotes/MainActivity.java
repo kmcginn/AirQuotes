@@ -49,6 +49,7 @@ public class MainActivity extends FragmentActivity implements
 	String user;
 	private LocationManager locationManager;
 	private ParseUser currUser;
+	MessageHolder allMessages;
 
 	
 	@Override
@@ -56,6 +57,8 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		allMessages = new MessageHolder();
+		
 		// TODO: make THIS one launch first, launch login activity if no user information
 		Bundle extras = getIntent().getExtras();
 		if (extras!=null){
@@ -317,10 +320,10 @@ public class MainActivity extends FragmentActivity implements
 			
 			switch(position) {
 			case 0:
-				fragment = MessagesFragment.newInstance(loc);
+				fragment = MessagesFragment.newInstance(loc, allMessages);
 				break;
 			case 1:
-				fragment = MyMapFragment.newInstance(loc);
+				fragment = MyMapFragment.newInstance(loc, allMessages);
 				break;
 			case 2:
 				fragment = FriendsFragment.newInstance();

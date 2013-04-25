@@ -36,6 +36,7 @@ public class MessagesFragment extends Fragment{
 	private ArrayList<String> objectIdList = new ArrayList<String>();
 	boolean friendsOnly;
 	ArrayList <String> friends= new ArrayList<String>();
+	MessageHolder allMessages;
 	
 	// This is the Adapter being used to display the list's data
     SimpleCursorAdapter mAdapter;
@@ -46,9 +47,10 @@ public class MessagesFragment extends Fragment{
 		super.onCreate(savedInstanceState);      
 	}
 	
-	public static MessagesFragment newInstance(LatLng newLoc) {
+	public static MessagesFragment newInstance(LatLng newLoc, MessageHolder holder) {
 		MessagesFragment frag = new MessagesFragment();
 		frag.loc = newLoc;
+		frag.allMessages = holder;
 		return frag;
 	}
 	
@@ -68,6 +70,8 @@ public class MessagesFragment extends Fragment{
         listView.setOnItemClickListener(mMessageClickedHandler);
 		Log.e("loc","before friends query");
 
+		allMessages.refreshList(friendsOnly, nearbyRadius, loc, listAdapter);
+		/*
         // get friends list
         
         // get current user
@@ -180,6 +184,7 @@ public class MessagesFragment extends Fragment{
 			Log.e("find","Unable to enter findCallback: "+e1);
 			
 		}
+		*/
 		//return view to be displayed
 		return findView;
 	}	
@@ -191,7 +196,7 @@ public class MessagesFragment extends Fragment{
 	    	//need argument to be objectid for the message
 	    	
 	    	Intent intent = new Intent(getActivity(), CommentViewActivity.class);
-	    	intent.putExtra("objId", objectIdList.get(position));
+	    	intent.putExtra("objId", allMessages.get(position).getObjectId());
 	    	MessagesFragment.this.startActivity(intent);
 	    }
 	};

@@ -3,12 +3,13 @@ package com.kmcginn.airquotes;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -57,9 +58,73 @@ public class MessageHolder {
 		
 	}
 	
-	public void refreshMap(Boolean friendsOnly, double nearbyRadius, LatLng loc) {
+	public void refreshMap(Boolean friendsOnly, double nearbyRadius, LatLng loc, final GoogleMap mMap) {
 		
-		refreshList(friendsOnly, nearbyRadius, loc, null);
+		// setup parse query (for messages)
+        ParseQuery query = new ParseQuery("Message");
+        
+        try {
+	        //set distance away
+	        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
+        } catch (Exception e1){
+			Log.e("loc", "Unable to get location: " + e1);
+        }
+		Log.e("loc","before find query");
+		if (friendsOnly){
+        	query.whereContainedIn("user", friends);
+        }
+		
+    	// find them in the background
+		try {
+        query.findInBackground(new FindCallback() {
+        	public void done(List<ParseObject> objects, ParseException e) {
+        		Log.e("loc","before if");
+
+        		if(e == null) {
+        			//success
+        			Log.e("loc","In Callback");
+        			// add all objects from query to set
+        			for(ParseObject o: objects){
+        				
+        				messages.add(o);
+        			}
+        			
+        			
+        			//TODO: move this into a function?
+        			if(mMap != null) {
+        				
+        				mMap.clear();
+        				
+        				for(ParseObject o: messages) {
+        					
+        					// get the message text
+            				String text = ((ParseObject) o).getString("text").toString();
+            				//get the message's user
+            				String user = ((ParseObject) o).getString("user").toString();
+            				// get the location
+            				ParseGeoPoint pt = ((ParseObject) o).getParseGeoPoint("location");
+            				mMap.addMarker(new MarkerOptions()
+            					.position(new LatLng(pt.getLatitude(), pt.getLongitude()))
+            					.title(text)
+            					.snippet(user));
+        				}
+        				
+        			}
+        			
+        		}
+        		else {
+        			//failure
+        			Log.e("find","Unable to find posts: "+e);
+       			
+        		}
+        	}
+        });
+		}
+		catch (Exception e1){
+			Log.e("find","Unable to enter findCallback: "+e1);
+			
+		}
+		
 		
 	}
 	

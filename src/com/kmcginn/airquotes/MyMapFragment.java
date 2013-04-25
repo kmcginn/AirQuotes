@@ -1,7 +1,5 @@
 package com.kmcginn.airquotes;
 
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,17 +20,17 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 public class MyMapFragment extends SupportMapFragment {
 
 	private GoogleMap mMap;
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
+	MessageHolder allMessages;
+	
+	//TODO: read this in from settings
+	private Boolean friendsOnly = false;
+
 	
 	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
 	
@@ -40,9 +38,10 @@ public class MyMapFragment extends SupportMapFragment {
 		super();
 	}
 	
-	public static MyMapFragment newInstance(LatLng newLoc) {
+	public static MyMapFragment newInstance(LatLng newLoc, MessageHolder holder) {
 		MyMapFragment frag = new MyMapFragment();
 		frag.loc = newLoc;
+		frag.allMessages = holder;
 		return frag;
 		
 	}
@@ -75,7 +74,10 @@ public class MyMapFragment extends SupportMapFragment {
 		
 		mMap.setMyLocationEnabled(true);
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 14));
-		//TODO: add pins
+		
+		//add message pins
+		allMessages.refreshMap(friendsOnly, nearbyRadius, loc, mMap);
+		/*
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
         //set distance away
@@ -108,7 +110,7 @@ public class MyMapFragment extends SupportMapFragment {
         		}
         	}
         });
-        
+        */
         
         FeedFetcher feedFetcher = new FeedFetcher();
         JSONArray array = feedFetcher.makeHTTPRequest(COUPON_URL);
@@ -154,10 +156,12 @@ public class MyMapFragment extends SupportMapFragment {
             }
         	
         });
+
+        //TODO: make clicking on the info window launch comment view for appropriate message
         mMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
 			@Override
-			public void onInfoWindowClick(Marker arg0) {
+			public void onInfoWindowClick(Marker mark) {
 				
 				
 			}        	
