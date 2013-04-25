@@ -28,7 +28,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-public class FindActivity extends Fragment{
+public class MessagesFragment extends Fragment{
 	private ArrayAdapter<String> listAdapter;
 	ParseObject messageHolder;
 	private LatLng loc;
@@ -46,8 +46,8 @@ public class FindActivity extends Fragment{
 		super.onCreate(savedInstanceState);      
 	}
 	
-	public static FindActivity newInstance(LatLng newLoc) {
-		FindActivity frag = new FindActivity();
+	public static MessagesFragment newInstance(LatLng newLoc) {
+		MessagesFragment frag = new MessagesFragment();
 		frag.loc = newLoc;
 		return frag;
 	}
@@ -192,7 +192,7 @@ public class FindActivity extends Fragment{
 	    	
 	    	Intent intent = new Intent(getActivity(), CommentViewActivity.class);
 	    	intent.putExtra("objId", objectIdList.get(position));
-	    	FindActivity.this.startActivity(intent);
+	    	MessagesFragment.this.startActivity(intent);
 	    }
 	};
 	/*
