@@ -1,8 +1,6 @@
 package com.kmcginn.airquotes;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -17,23 +15,16 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
-import com.parse.ParseUser;
 
 public class MessagesFragment extends Fragment{
 	private ArrayAdapter<String> listAdapter;
 	ParseObject messageHolder;
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
-	private ArrayList<String> objectIdList = new ArrayList<String>();
+	//private ArrayList<String> objectIdList = new ArrayList<String>();
 	boolean friendsOnly;
 	ArrayList <String> friends= new ArrayList<String>();
 	MessageHolder allMessages;
@@ -191,7 +182,8 @@ public class MessagesFragment extends Fragment{
 	
 
 	private OnItemClickListener mMessageClickedHandler = new OnItemClickListener() {
-	    public void onItemClick(AdapterView parent, View v, int position, long id) {
+	    @SuppressWarnings("rawtypes")
+		public void onItemClick(AdapterView parent, View v, int position, long id) {
 	        //TODO: make clicking on the list launch CommentViewActivity
 	    	//need argument to be objectid for the message
 	    	

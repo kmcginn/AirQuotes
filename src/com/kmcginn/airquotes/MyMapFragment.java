@@ -123,7 +123,6 @@ public class MyMapFragment extends SupportMapFragment {
         	try {
 				myObj = array.getJSONObject(i);
 			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         	
@@ -133,7 +132,6 @@ public class MyMapFragment extends SupportMapFragment {
 				ln = myObj.getDouble("lon");
 				coupons = myObj.getJSONArray("coupons");
 			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         	

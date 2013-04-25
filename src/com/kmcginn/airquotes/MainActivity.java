@@ -2,8 +2,6 @@ package com.kmcginn.airquotes;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.TreeSet;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -376,15 +374,40 @@ public class MainActivity extends FragmentActivity implements
 	}*/
 	
 	public Boolean logoutClicked(MenuItem item){
-		ParseUser.logOut();
-		Toast.makeText(context, "Logged Out", Toast.LENGTH_LONG).show();
-    	Intent intent= new Intent(context, LoggingActivity.class);
-    	startActivity(intent);
-    	
-    	return true;
+		try {
+			ParseUser.logOut();
+			Toast.makeText(context, "Logged Out", Toast.LENGTH_LONG).show();
+			Intent intent= new Intent(context, LoggingActivity.class);
+			startActivity(intent);
+			return true;
+		} catch (Exception e) {
+			Log.e("logout", "Unable to logout");
+			return false;			
+		}
 
 	}
-
+	
+	public Boolean settingsClicked(MenuItem item) {
+		try{
+			Intent intent = new Intent(context, SettingsActivity.class);
+			startActivity(intent);		
+			return true;
+		} catch (Exception e) {
+			Log.e("settings", "Unable to open settings menu");
+			return false;
+			
+		}
+	}
+	
+	public Boolean refreshClicked(MenuItem item) {
+		
+		return true;
+	}
+	
+	public Boolean helpClicked(MenuItem item) {
+		
+		return true;
+	}
 }
 
 

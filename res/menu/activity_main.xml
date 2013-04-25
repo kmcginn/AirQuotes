@@ -4,8 +4,22 @@
         android:id="@+id/menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/menu_settings"/>
-    <item android:id="@+id/logout" android:onClick="logoutClicked" android:visible="true" android:title="@string/logout_string"></item>
-    <item android:id="@+id/refresh" android:visible="true" android:title="@string/refresh_string"></item>
+        android:title="@string/menu_settings" 
+        android:onClick="settingsClicked"/>
+    <item 
+        android:id="@+id/logout" 
+        android:onClick="logoutClicked" 
+        android:visible="true" 
+        android:title="@string/logout_string"/>
+    <item 
+        android:id="@+id/refresh" 
+        android:visible="true" 
+        android:title="@string/refresh_string"
+        android:onClick="refreshClicked"/>
+    <item 
+        android:id="@+id/help"
+        android:visible="true"
+        android:title="@string/help_string"
+        android:onClick="helpClicked" />"
 
 </menu>

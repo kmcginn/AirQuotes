@@ -37,5 +37,6 @@
     <string name="view_friends_radio">View Friend Posts Only</string>
     <string name="logout_string">Logout</string>
     <string name="refresh_string">Refresh</string>
+    <string name="help_string">Help</string>
 
 </resources>
