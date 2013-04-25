@@ -400,7 +400,13 @@ public class MainActivity extends FragmentActivity implements
 	}
 	
 	public Boolean refreshClicked(MenuItem item) {
+		//have fragments refresh themselves
+		//TODO: only refresh the current fragment
 		
+		//this doesn't work
+		//use TAGS?
+		//look at the fragment transaction page
+		//MyMapFragment mapfrag = (MyMapFragment) getFragmentManager().findFragmentById(R.id.???);
 		return true;
 	}
 	
