@@ -71,6 +71,9 @@ public class FindActivity extends Fragment{
         // get friends list
         
         // get current user
+		//TODO: MAKE THIS NOT HAPPEN IN THE GUI THREAD!!!
+		// if friends only, does second query in its callback
+		// otherwise just regular background query?
 		ParseUser currUser= ParseUser.getCurrentUser();
 	    friendsOnly= (Boolean) currUser.get("viewFriends");
 	    try {
