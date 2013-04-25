@@ -1,10 +1,12 @@
 package com.kmcginn.airquotes;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
@@ -17,8 +19,8 @@ import com.parse.ParseUser;
 
 public class MessageHolder {
 
-	Set<ParseObject> messages = new TreeSet<ParseObject>();
-	Set<ParseObject> friends = new TreeSet<ParseObject>();
+	Set<ParseObject> messages = new LinkedHashSet<ParseObject>();
+	Set<ParseObject> friends = new LinkedHashSet<ParseObject>();
 
 	//constructor
 	public MessageHolder() {
@@ -55,7 +57,23 @@ public class MessageHolder {
 		
 	}
 	
-	public void refreshList(Boolean friendsOnly, double nearbyRadius, LatLng loc) {
+	public void refreshMap(Boolean friendsOnly, double nearbyRadius, LatLng loc) {
+		
+		refreshList(friendsOnly, nearbyRadius, loc, null);
+		
+	}
+	
+	public Set<ParseObject> getAll() {
+		
+		return messages;
+	}
+	
+	public ParseObject get(int index) {
+		return (ParseObject) messages.toArray()[index];
+		
+	}
+	
+	public void refreshList(Boolean friendsOnly, double nearbyRadius, LatLng loc, final ArrayAdapter<String> listAdapter) {
 		
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
@@ -70,6 +88,7 @@ public class MessageHolder {
 		if (friendsOnly){
         	query.whereContainedIn("user", friends);
         }
+		
     	// find them in the background
 		try {
         query.findInBackground(new FindCallback() {
@@ -83,10 +102,24 @@ public class MessageHolder {
         			for(ParseObject o: objects){
         				
         				messages.add(o);
-        				        			}
-        			Log.e("loc","After for loop");
-
+        			}
         			
+        			
+        			//TODO: move this into a function?
+        			if(listAdapter != null) {
+        				
+        				for(ParseObject o: messages) {
+        					// get the message
+    	        			String text = o.getString("text").toString();
+    	        			// get the author
+    	        			String author = o.getString("user").toString();
+    	        			// add a string combining the message and location
+    	        			listAdapter.add(text + "\n" + author);      					
+        				}
+        				
+        				//indicate that the list adapter has changed its data, so the listview will update
+        				listAdapter.notifyDataSetChanged();
+        			}
         			
         		}
         		else {
