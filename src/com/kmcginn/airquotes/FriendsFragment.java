@@ -21,7 +21,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class SettingsFragment extends Fragment{
+public class FriendsFragment extends Fragment{
 
 	private ParseUser user;
 	CheckBox friendsCheck;
@@ -34,12 +34,12 @@ public class SettingsFragment extends Fragment{
 		StrictMode.setThreadPolicy(policy); 
 	}
 	
-	public SettingsFragment(){
+	public FriendsFragment(){
 		super();
 	}
 	
-	public static SettingsFragment newInstance() {
-		SettingsFragment frag = new SettingsFragment();
+	public static FriendsFragment newInstance() {
+		FriendsFragment frag = new FriendsFragment();
 		return frag;
 		
 	}

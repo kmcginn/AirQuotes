@@ -321,7 +321,7 @@ public class MainActivity extends FragmentActivity implements
 				fragment = MyMapFragment.newInstance(loc);
 				break;
 			case 2:
-				fragment = SettingsFragment.newInstance();
+				fragment = FriendsFragment.newInstance();
 				break;
 				
 			default:
