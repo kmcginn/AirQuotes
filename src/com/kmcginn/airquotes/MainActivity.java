@@ -406,7 +406,15 @@ public class MainActivity extends FragmentActivity implements
 	
 	public Boolean helpClicked(MenuItem item) {
 		
-		return true;
+		try{
+			Intent intent = new Intent(context, HelpActivity.class);
+			startActivity(intent);		
+			return true;
+		} catch (Exception e) {
+			Log.e("settings", "Unable to open help screen");
+			return false;
+			
+		}
 	}
 }
 
