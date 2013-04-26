@@ -108,8 +108,9 @@ public class MyMapFragment extends SupportMapFragment {
 					MyMapFragment.this.startActivity(intent);
 				}
 				else if(coupMap.containsKey(mark)) {
-					Log.d("window", coupMap.get(mark).toString());
-					
+					Intent intent = new Intent(getActivity(), CouponActivity.class);
+					intent.putExtra("coupon", coupMap.get(mark).toString());
+					MyMapFragment.this.startActivity(intent);
 				}
 				
 			}        	

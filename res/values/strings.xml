@@ -44,5 +44,6 @@
     <string name="help_string">Help</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="filter_string">Filter By: </string>
-	
+    <string name="title_activity_coupon">CouponActivity</string>
+
 </resources>
