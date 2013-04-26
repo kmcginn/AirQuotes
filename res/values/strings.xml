@@ -35,6 +35,10 @@
     <string name="base_comment">Insert comment here...</string>
     <string name="add_comment_button">Add Comment</string>
     <string name="view_friends_radio">View Friend Posts Only</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_fragment_message_help">MessageHelpActivity</string>
+    <string name="title_activity_map_help_fragment">MapHelpFragment</string>
+    <string name="title_activity_friends_help_fragment">FriendsHelpFragment</string>
     <string name="logout_string">Logout</string>
     <string name="refresh_string">Refresh</string>
     <string name="help_string">Help</string>
