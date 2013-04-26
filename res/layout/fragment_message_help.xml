@@ -8,4 +8,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MessageHelpActivity" >
 
+    <TextView
+        android:id="@+id/viewMainPostHelpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/help_view_main_post_title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/viewMainPostHelpContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/viewMainPostHelpTitle"
+        android:text="@string/help_view_main_post_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/chooseFilterHelpContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/chooseFilterHelpTitle"
+        android:text="@string/help_choose_filter_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/chooseFilterHelpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/chooseFilterHelpContent"
+        android:layout_below="@+id/viewMainPostHelpContent"
+        android:layout_marginTop="34dp"
+        android:text="@string/help_choose_filter_title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>

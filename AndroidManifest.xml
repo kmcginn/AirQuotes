@@ -86,10 +86,9 @@
             android:name="com.kmcginn.airquotes.CommentViewActivity"
             android:label="@string/title_activity_comment_view" >
             <meta-data
-	                android:name="android.support.PARENT_ACTIVITY"
-	                android:value="com.kmcginn.airquotes.MainActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kmcginn.airquotes.MainActivity" />
         </activity>
-	        
         <activity
             android:name="com.kmcginn.airquotes.HelpActivity"
             android:label="@string/title_activity_help" >
@@ -117,7 +116,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kmcginn.airquotes.MainActivity" />
         </activity>
-            
+        <activity
+            android:name="com.kmcginn.airquotes.CouponActivity"
+            android:label="@string/title_activity_coupon"
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kmcginn.airquotes.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
