@@ -444,9 +444,9 @@ public class MainActivity extends FragmentActivity implements
 	
 	public Boolean filterClicked(MenuItem item) {
 		
-		AlertDialog filter = new AlertDialog.Builder(this)
-        .setTitle("Choose Filter Type")
-        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		AlertDialog.Builder filter= new AlertDialog.Builder(context);
+        filter.setTitle("Choose Filter Type");
+        filter.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -456,22 +456,22 @@ public class MainActivity extends FragmentActivity implements
                 }
             }
             }
-        })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        });
+        filter.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getBaseContext(), "Cancel clicked!", Toast.LENGTH_LONG).show();
             }
-        })
-        .setMultiChoiceItems(filters, filtersChecked, new DialogInterface.OnMultiChoiceClickListener() {
+        });
+        filter.setMultiChoiceItems(filters, filtersChecked, new DialogInterface.OnMultiChoiceClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 Toast.makeText(getBaseContext(), filters[which] + (isChecked ? "checked!" : "unchecked!"), Toast.LENGTH_SHORT).show();
             }
-        })
-        .create();
+        });
+        filter.show();
 		return true;
 	}
 }
