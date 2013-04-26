@@ -2,8 +2,6 @@ package com.kmcginn.airquotes;
 
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -19,11 +17,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseObject;
 
 public class MyMapFragment extends SupportMapFragment {
@@ -33,8 +29,9 @@ public class MyMapFragment extends SupportMapFragment {
 	private double nearbyRadius = 0.5;
 	MessageHolder allMessages;
 	HashMap<Marker,ParseObject> idMap;
+	HashMap<Marker, JSONObject> coupMap;
 	
-	//TODO: read this in from settings
+	//TODO: read this in from settings instead of downloading?
 	//private Boolean friendsOnly = false;
 
 	
@@ -43,6 +40,7 @@ public class MyMapFragment extends SupportMapFragment {
 	public MyMapFragment() {
 		super();
 		idMap = new HashMap<Marker, ParseObject>();
+		coupMap = new HashMap<Marker, JSONObject>();
 	}
 	
 	public static MyMapFragment newInstance(LatLng newLoc, MessageHolder holder) {
@@ -82,7 +80,7 @@ public class MyMapFragment extends SupportMapFragment {
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 14));
 		
 		//add message pins
-		allMessages.refreshMap(nearbyRadius, loc, mMap, idMap);
+		allMessages.refreshMap(nearbyRadius, loc, mMap, idMap, coupMap);
         
         mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
         	private float currentZoom = -1;
@@ -102,9 +100,17 @@ public class MyMapFragment extends SupportMapFragment {
 
 			@Override
 			public void onInfoWindowClick(Marker mark) {
-				Intent intent = new Intent(getActivity(), CommentViewActivity.class);
-		    	intent.putExtra("objId", idMap.get(mark).getObjectId());
-		    	MyMapFragment.this.startActivity(intent);
+				
+				if(idMap.containsKey(mark)) {
+					Log.d("window", "normal pin id: " + idMap.get(mark));
+					Intent intent = new Intent(getActivity(), CommentViewActivity.class);
+					intent.putExtra("objId", idMap.get(mark).getObjectId());
+					MyMapFragment.this.startActivity(intent);
+				}
+				else if(coupMap.containsKey(mark)) {
+					Log.d("window", coupMap.get(mark).toString());
+					
+				}
 				
 			}        	
         	
