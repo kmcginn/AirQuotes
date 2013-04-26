@@ -46,6 +46,11 @@ public class MessagesFragment extends Fragment{
 		return frag;
 	}
 	
+	public void refresh() {
+		listAdapter.clear();
+		allMessages.refreshList(nearbyRadius, loc, listAdapter);		
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.e("loc","at beginning of onCreateView");

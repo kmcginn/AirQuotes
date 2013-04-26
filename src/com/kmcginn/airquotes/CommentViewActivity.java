@@ -164,6 +164,7 @@ public class CommentViewActivity extends Activity {
 				if(e == null) {
 					// saved successfully
 					Toast.makeText(context, "Altitude updated", Toast.LENGTH_SHORT).show();
+					
 				}
 				else {
 				
@@ -172,8 +173,10 @@ public class CommentViewActivity extends Activity {
 				}
 			}
 		});
+		
 		TextView altTextBox = (TextView) findViewById(R.id.altText);
-        altTextBox.setText(altitude);
+        altTextBox.setText(Integer.toString(altitude));
+		
 		
 		
     }
@@ -187,6 +190,7 @@ public class CommentViewActivity extends Activity {
 				if(e == null) {
 					// saved successfully
 					Toast.makeText(context, "Altitude updated", Toast.LENGTH_SHORT).show();
+					
 				}
 				else {
 				
@@ -196,7 +200,7 @@ public class CommentViewActivity extends Activity {
 			}
 		});
 		TextView altTextBox = (TextView) findViewById(R.id.altText);
-        altTextBox.setText(altitude);
+        altTextBox.setText(Integer.toString(altitude));
 		
     }
 	

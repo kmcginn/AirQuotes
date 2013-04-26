@@ -236,9 +236,14 @@ public class MainActivity extends FragmentActivity implements
 	//TODO: get button to use the fragment's method?
 	public void postMessage(View view) {
 		
+		
+		
 		// get text from user's EditText box
 		EditText editText = (EditText) findViewById(R.id.messageBox);
-		String message = editText.getText().toString();		
+		String message = editText.getText().toString();
+		
+		//clear the textbox
+		editText.setText("");
 		// gather message info for Parse
 		messageHolder = new ParseObject("Message");
 		// gather location info for Parse
@@ -253,6 +258,7 @@ public class MainActivity extends FragmentActivity implements
 				if(e == null) {
 					// saved successfully
 					Toast.makeText(context, "Note posted", Toast.LENGTH_SHORT).show();
+					refreshAll();
 				}
 				else {
 				
@@ -376,6 +382,11 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}*/
 	
+	private static String makeFragmentName(int viewId, int index)
+	{
+	     return "android:switcher:" + viewId + ":" + index;
+	}
+	
 	public Boolean logoutClicked(MenuItem item){
 		try {
 			ParseUser.logOut();
@@ -404,13 +415,16 @@ public class MainActivity extends FragmentActivity implements
 	
 	public Boolean refreshClicked(MenuItem item) {
 		//have fragments refresh themselves
-		//TODO: only refresh the current fragment
 		
-		//this doesn't work
-		//use TAGS?
-		//look at the fragment transaction page
-		//MyMapFragment mapfrag = (MyMapFragment) getFragmentManager().findFragmentById(R.id.???);
+		refreshAll();
 		return true;
+	}
+	
+	public void refreshAll() {
+		MyMapFragment mapfrag = (MyMapFragment) getSupportFragmentManager().findFragmentByTag(makeFragmentName(mViewPager.getId(), 1));
+		MessagesFragment messfrag = (MessagesFragment) getSupportFragmentManager().findFragmentByTag(makeFragmentName(mViewPager.getId(),0));
+		mapfrag.refresh();
+		messfrag.refresh();
 	}
 	
 	public Boolean helpClicked(MenuItem item) {

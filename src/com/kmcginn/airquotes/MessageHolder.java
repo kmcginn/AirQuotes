@@ -28,6 +28,7 @@ import com.parse.ParseUser;
 public class MessageHolder {
 
 	Set<ParseObject> messages = new LinkedHashSet<ParseObject>();
+	Set<ParseObject> map_messages = new LinkedHashSet<ParseObject>();
 	Set<ParseObject> friends = new LinkedHashSet<ParseObject>();
 	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
 
@@ -68,6 +69,8 @@ public class MessageHolder {
 	
 	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, ParseObject> idMap, final HashMap<Marker, JSONObject> coupMap) {
 		
+		mMap.clear();
+		
 		Boolean friendsOnly;
 		
 		friendsOnly= (Boolean) ParseUser.getCurrentUser().get("viewFriends");
@@ -94,11 +97,12 @@ public class MessageHolder {
 
         		if(e == null) {
         			//success
+        			map_messages.clear();
         			Log.e("loc","In Callback");
         			// add all objects from query to set
         			for(ParseObject o: objects){
         				
-        				messages.add(o);
+        				map_messages.add(o);
         			}
         			
         			
@@ -107,7 +111,7 @@ public class MessageHolder {
         				
         				mMap.clear();
         				Marker temp;
-        				for(ParseObject o: messages) {
+        				for(ParseObject o: map_messages) {
         					
         					// get the message text
             				String text = ((ParseObject) o).getString("text").toString();
@@ -200,6 +204,9 @@ public class MessageHolder {
 	
 	public void refreshList(double nearbyRadius, LatLng loc, final ArrayAdapter<String> listAdapter) {
 		
+		listAdapter.clear();
+		listAdapter.notifyDataSetChanged();
+		
 		Boolean friendsOnly;
 		
 		friendsOnly= (Boolean) ParseUser.getCurrentUser().get("viewFriends");
@@ -222,11 +229,10 @@ public class MessageHolder {
 		try {
         query.findInBackground(new FindCallback() {
         	public void done(List<ParseObject> objects, ParseException e) {
-        		Log.e("loc","before if");
-
+        		
+        		messages.clear();
         		if(e == null) {
         			//success
-        			Log.e("loc","In Callback");
         			// add all objects from query to set
         			for(ParseObject o: objects){
         				

@@ -74,6 +74,10 @@ public class MyMapFragment extends SupportMapFragment {
 		}
 	}
 	
+	public void refresh() {
+		allMessages.refreshMap(nearbyRadius, loc, mMap, idMap, coupMap);		
+	}
+	
 	private void setUpMap() {
 		
 		mMap.setMyLocationEnabled(true);
@@ -88,7 +92,7 @@ public class MyMapFragment extends SupportMapFragment {
             @Override
             public void onCameraChange(CameraPosition pos) {
                 if (pos.zoom != currentZoom){
-                	Toast.makeText(getActivity(), "Zoom changed!", Toast.LENGTH_SHORT).show();
+                	//Toast.makeText(getActivity(), "Zoom changed!", Toast.LENGTH_SHORT).show();
                     currentZoom = pos.zoom;
                 }
             }
