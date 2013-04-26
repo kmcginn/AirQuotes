@@ -1,7 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MainTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,31 +15,31 @@
         android:id="@+id/friendText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:ems="10"
+        android:gravity="center"
         android:hint="@string/add_friends"
-        android:inputType="textEmailAddress" >
-
-        <requestFocus />
-    </EditText>
+        android:inputType="textEmailAddress" />
 
     <Button
         android:id="@+id/friendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/friendText"
-        android:layout_centerHorizontal="true"
         android:text="@string/friend_button" 
-        android:onClick="addFriendClicked"/>
+        android:onClick="addFriendClicked"
+        android:gravity="center"/>
 
     <CheckBox
         android:id="@+id/viewFriendsCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/friendText"
-        android:layout_below="@+id/friendButton"
         android:text="@string/view_friends_radio"
-        android:onClick="friendsChecked" />
+        android:onClick="friendsChecked"
+        android:gravity="center" />
 
-</RelativeLayout>
+    <ListView
+        android:id="@+id/friends_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

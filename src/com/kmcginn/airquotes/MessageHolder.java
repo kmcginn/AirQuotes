@@ -34,25 +34,37 @@ public class MessageHolder {
 
 	//constructor
 	public MessageHolder() {
-		refreshFriends();
+		refreshFriends(null);
 	}
 	
-	public void refreshFriends() {
+	public void refreshFriends(final ArrayAdapter<String> flistAdapter) {
+		
+		if(flistAdapter != null) {
+			flistAdapter.clear();
+			flistAdapter.notifyDataSetChanged();
+		}
+		
 		//initialize friends here based on current parse user
-				ParseUser currUser= ParseUser.getCurrentUser();
-				// get relation and query
-		        ParseRelation friendsRel= currUser.getRelation("friends");
-		        ParseQuery friendsQuery= friendsRel.getQuery();
+			ParseUser currUser= ParseUser.getCurrentUser();
+			// get relation and query
+		    ParseRelation friendsRel= currUser.getRelation("friends");
+		    ParseQuery friendsQuery= friendsRel.getQuery();
 		        
-		        friendsQuery.findInBackground(new FindCallback() {
+		    friendsQuery.findInBackground(new FindCallback() {
 					public void done(List<ParseObject> users, ParseException e) {
 						if (e == null){
+							friends.clear();
 							for(ParseObject o: users){
 								try {
 								friends.add( o);
 								}
 								catch (Exception e1){
 									Log.e("collection","Couldn't add to collection: "+o.getString("username")+e1);
+								}
+								
+								if(flistAdapter != null) {
+									flistAdapter.add(o.getString("username"));
+									flistAdapter.notifyDataSetChanged();
 								}
 							}
 						}
@@ -84,7 +96,6 @@ public class MessageHolder {
         } catch (Exception e1){
 			Log.e("loc", "Unable to get location: " + e1);
         }
-		Log.e("loc","before find query");
 		if (friendsOnly){
         	query.whereContainedIn("user", friends);
         }
@@ -93,12 +104,10 @@ public class MessageHolder {
 		try {
         query.findInBackground(new FindCallback() {
         	public void done(List<ParseObject> objects, ParseException e) {
-        		Log.e("loc","before if");
 
         		if(e == null) {
         			//success
         			map_messages.clear();
-        			Log.e("loc","In Callback");
         			// add all objects from query to set
         			for(ParseObject o: objects){
         				
@@ -220,8 +229,8 @@ public class MessageHolder {
         } catch (Exception e1){
 			Log.e("loc", "Unable to get location: " + e1);
         }
-		Log.e("loc","before find query");
-		if (friendsOnly){
+
+        if (friendsOnly){
         	query.whereContainedIn("user", friends);
         }
 		

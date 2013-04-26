@@ -278,6 +278,7 @@ public class MainActivity extends FragmentActivity implements
         //limit to user we are trying to add as a friend
         EditText editText = (EditText) findViewById(R.id.friendText);
 		String friend = editText.getText().toString();
+		editText.setText("");
 		Log.e("query", "searching for user: '" + friend + "'");
         query.whereEqualTo("username", friend);        
         // find them in the background
@@ -294,9 +295,20 @@ public class MainActivity extends FragmentActivity implements
         				for(ParseObject o: objects){
         					//add friend to user
         					relation.add(o);
-        					currUser.saveInBackground();
-        					Toast.makeText(context, "Friend Added!", Toast.LENGTH_LONG).show();
+        					currUser.saveInBackground(new SaveCallback() {
+
+								@Override
+								public void done(ParseException e) {
+									refreshAll();
+									Toast.makeText(context, "Friend Added!", Toast.LENGTH_LONG).show();
+								}
+        						
+        						
+        					});
+        					
         				}
+        				
+        				
         			}
         			else {
             			Toast.makeText(context, "No user found. Result length: " + objects.size(), Toast.LENGTH_LONG).show();
@@ -423,8 +435,16 @@ public class MainActivity extends FragmentActivity implements
 	public void refreshAll() {
 		MyMapFragment mapfrag = (MyMapFragment) getSupportFragmentManager().findFragmentByTag(makeFragmentName(mViewPager.getId(), 1));
 		MessagesFragment messfrag = (MessagesFragment) getSupportFragmentManager().findFragmentByTag(makeFragmentName(mViewPager.getId(),0));
+		FriendsFragment ffrag = (FriendsFragment) getSupportFragmentManager().findFragmentByTag(makeFragmentName(mViewPager.getId(),2));
+		if(ffrag != null) {
+			ffrag.refresh();
+		}
+		else {
+			Log.e("main", "ffrag is null");
+		}		
 		mapfrag.refresh();
 		messfrag.refresh();
+		
 	}
 	
 	public Boolean helpClicked(MenuItem item) {

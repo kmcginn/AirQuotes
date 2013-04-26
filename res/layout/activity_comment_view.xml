@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/postText"
         android:layout_below="@+id/postText"
-        android:text="@string/base_username_text" />
+        android:text="@string/base_username_text"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dateText"
@@ -34,7 +35,8 @@
         android:layout_alignBottom="@+id/dateText"
         android:layout_alignParentRight="true"
         android:layout_marginRight="39dp"
-        android:text="@string/base_point_value_text" />
+        android:text="@string/base_point_value_text"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/climbButton"
@@ -92,6 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/climbButton"
         android:layout_alignParentTop="true"
-        android:text="@string/base_post_text" />
+        android:text="@string/base_post_text"
+        android:textSize="20sp" />
 
 </RelativeLayout>

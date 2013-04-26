@@ -69,12 +69,16 @@ public class LoggingActivity extends Activity {
 		user.setUsername(address);
 		user.setPassword(password);
 		user.setEmail(address);
+		user.put("viewFriends", false);
+		
+		final String email = address;
 		
 		user.signUpInBackground(new SignUpCallback() {
 			  public void done(ParseException e) {
 			    if (e == null) {
 			      // Hooray! Let them use the app now.
 			    	Intent intent= new Intent(context, MainActivity.class);
+			    	intent.putExtra("user", email);
 			    	startActivity(intent);
 			    } else {
 			      // Sign up didn't succeed. Look at the ParseException

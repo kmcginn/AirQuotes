@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -19,12 +21,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 public class FriendsFragment extends Fragment{
 
 	private ParseUser user;
 	CheckBox friendsCheck;
+	private ArrayAdapter<String> listAdapter;
+	MessageHolder allFriends;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class FriendsFragment extends Fragment{
 	
 	public FriendsFragment(){
 		super();
+		allFriends = new MessageHolder();
 	}
 	
 	public static FriendsFragment newInstance() {
@@ -47,7 +51,6 @@ public class FriendsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View settingsView = inflater.inflate(R.layout.settings_fragment, container, false);
-		
 		try{
 			ParseUser currUser= ParseUser.getCurrentUser();
 	        Boolean friendsOnly= (Boolean) currUser.get("viewFriends");
@@ -58,7 +61,28 @@ public class FriendsFragment extends Fragment{
 			Log.e("check","Unable to check the box: "+e1);
 		}
 		
+		// get ListView from activity's View
+        ListView listView = (ListView) settingsView.findViewById(R.id.friends_list);
+        if(listView == null) {
+        	Log.e("friends", "listview is null");
+        	
+        }
+        // init arraylist adapter
+        listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        
+        if(listAdapter == null) {
+        	Log.e("friends", "listadapter is null");
+        	
+        }
+		listView.setAdapter(listAdapter);
+		
+		allFriends.refreshFriends(listAdapter);
+		
 		return settingsView;
+	}
+	
+	public void refresh() {
+		allFriends.refreshFriends(listAdapter);		
 	}
 	
 	public void addFriendClicked(View view){
@@ -75,6 +99,7 @@ public class FriendsFragment extends Fragment{
         			ParseRelation relation = user.getRelation("friends");
         			EditText editText = (EditText) getView().findViewById(R.id.friendText);
         			String friend = editText.getText().toString();
+        			
         			boolean found= false;
         			// add all objects from query to list adapter
         			for(Object o: objects){
@@ -86,7 +111,7 @@ public class FriendsFragment extends Fragment{
         					user.saveInBackground();
         					found=true;
                 			Toast.makeText(getActivity(), "Friend Added!", Toast.LENGTH_LONG).show();
-
+                			allFriends.refreshFriends(listAdapter);
         				}
         				// add a string combining the message and location
         			}
