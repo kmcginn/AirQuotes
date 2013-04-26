@@ -49,6 +49,8 @@ public class MainActivity extends FragmentActivity implements
 	private LocationManager locationManager;
 	private ParseUser currUser;
 	MessageHolder allMessages;
+	CharSequence[] filters = {"Closest", "Most Recent", "Friends"};
+    boolean[] filtersChecked = new boolean[filters.length];
 
 	
 	@Override
@@ -437,8 +439,40 @@ public class MainActivity extends FragmentActivity implements
 			Log.e("check","Unable to saved friend preference: "+e);
 			return false;
 		}
+			
+	}
+	
+	public Boolean filterClicked(MenuItem item) {
 		
-		
+		AlertDialog filter = new AlertDialog.Builder(this)
+        .setTitle("Choose Filter Type")
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < filters.length; i++) {
+                if (filtersChecked[i]) {
+                    Toast.makeText(getBaseContext(), filters[i] + " checked!", Toast.LENGTH_LONG).show();
+                }
+            }
+            }
+        })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked!", Toast.LENGTH_LONG).show();
+            }
+        })
+        .setMultiChoiceItems(filters, filtersChecked, new DialogInterface.OnMultiChoiceClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                Toast.makeText(getBaseContext(), filters[which] + (isChecked ? "checked!" : "unchecked!"), Toast.LENGTH_SHORT).show();
+            }
+        })
+        .create();
+		return true;
 	}
 }
 

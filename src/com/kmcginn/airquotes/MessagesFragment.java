@@ -35,7 +35,8 @@ public class MessagesFragment extends Fragment{
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);      
+		super.onCreate(savedInstanceState);  
+
 	}
 	
 	public static MessagesFragment newInstance(LatLng newLoc, MessageHolder holder) {
@@ -192,6 +193,8 @@ public class MessagesFragment extends Fragment{
 	    	MessagesFragment.this.startActivity(intent);
 	    }
 	};
+	
+	
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
