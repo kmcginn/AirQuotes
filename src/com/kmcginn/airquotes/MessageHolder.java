@@ -66,7 +66,7 @@ public class MessageHolder {
 		
 	}
 	
-	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, ParseObject> idMap) {
+	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, ParseObject> idMap, final HashMap<Marker, JSONObject> coupMap) {
 		
 		Boolean friendsOnly;
 		
@@ -130,6 +130,8 @@ public class MessageHolder {
         			Log.e("find","Unable to find posts: "+e);
        			
         		}
+        		
+        		refreshCoupons(coupMap, mMap);
         	}
         });
 		}
@@ -138,6 +140,11 @@ public class MessageHolder {
 			
 		}
 		
+		
+		
+	}
+	
+	private void refreshCoupons(HashMap<Marker, JSONObject> coupMap, GoogleMap mMap) {
 		FeedFetcher feedFetcher = new FeedFetcher();
         JSONArray array = feedFetcher.makeHTTPRequest(COUPON_URL);
         JSONObject myObj = new JSONObject();
@@ -145,6 +152,7 @@ public class MessageHolder {
         double lt = 0;
         double ln = 0;
         String locName = "";
+        Marker temp;
         for(int i = 0; i < array.length(); i++) {
         	try {
 				myObj = array.getJSONObject(i);
@@ -161,15 +169,23 @@ public class MessageHolder {
 				e1.printStackTrace();
 			}
         	
-        	mMap.addMarker(new MarkerOptions()
-        	.position(new LatLng(lt, ln))
-        	.title(locName)
-        	.snippet(coupons.length() + " coupon(s) available")
-        	.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        	
+        	temp = mMap.addMarker(new MarkerOptions()
+        		.position(new LatLng(lt, ln))
+        		.title(locName)
+        		.snippet(coupons.length() + " coupon(s) available")
+        		.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        	
+        	try{
+        		coupMap.put(temp, myObj);
+        	} catch(Exception e) {
+        		Log.e("message_h", "Unable to store pin: " + e.toString());
+        	}
+        	
         	
         	Log.d("map", "adding pin at " + locName);
         }
-		
+	
 	}
 	
 	public Set<ParseObject> getAll() {
