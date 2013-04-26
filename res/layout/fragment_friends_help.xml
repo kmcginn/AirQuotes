@@ -9,8 +9,40 @@
     tools:context=".FriendsHelpFragment" >
 
     <TextView
+        android:id="@+id/viewMainPostHelpTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/help_add_friend_title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/viewMapPinHelpContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewMainPostHelpTitle"
+        android:layout_below="@+id/viewMainPostHelpTitle"
+        android:text="@string/help_add_friend_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/viewMapPostHelpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewMapPinHelpContent"
+        android:layout_below="@+id/viewMapPinHelpContent"
+        android:layout_marginTop="54dp"
+        android:text="@string/help_view_friend_title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/chooseFilterHelpContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewMapPostHelpTitle"
+        android:layout_below="@+id/viewMapPostHelpTitle"
+        android:text="@string/help_view_friend_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

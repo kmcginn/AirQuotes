@@ -44,5 +44,18 @@
     <string name="help_string">Help</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="filter_string">Filter By: </string>
+    <string name="help_add_friend_title">Adding Friends</string>
+    <string name="help_add_friend_content">In order to add a friend, type their username/email into the text box and then tap the "Add Friend" button.</string>
+    <string name="help_view_friend_title">Filtering Posts By Friends</string>
+    <string name="help_view_friend_content">In order to only view posts that are made by friends, check the "View Friend Post Only" check box. If you wish to see all of the local chatter, Uncheck the box.</string>
+    <string name="help_view_map_pin_title">View Post Preview</string>
+    <string name="help_view_map_pin_content">In order to see a preview of a post, tap the pin and the preview will expand from the pin.</string>
+    <string name="help_view_map_post_title">View Post from Map</string>
+    <string name="help_view_map_post_content">In order to see a full post, after opening the preview, tap the preview and the full post view will open.</string>
+    <string name="help_view_main_post_title">View Individual Post</string>
+    <string name="help_view_main_post_content">In order to view an individual post, simply click on the post and a new window will open. This window will show the post, it\'s information and any comments made upon the post.</string>
+    <string name="help_choose_filter_title">Choosing a Chatter Filter</string>
+    <string name="help_choose_filter_content">In order to choose a filter for the local chatter, click the settings button on your phone. Then tap "Filter By:" and choose the type of filter you would prefer. The choices are by altitude(Highest), by time(Most Recent), or by people you know.(Friends)</string>
+    
 	
 </resources>
