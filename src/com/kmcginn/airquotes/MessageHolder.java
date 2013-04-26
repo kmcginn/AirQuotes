@@ -60,7 +60,7 @@ public class MessageHolder {
 		
 	}
 	
-	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, String> idMap) {
+	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, ParseObject> idMap) {
 		
 		Boolean friendsOnly;
 		
@@ -100,7 +100,7 @@ public class MessageHolder {
         			if(mMap != null) {
         				
         				mMap.clear();
-        				
+        				Marker temp;
         				for(ParseObject o: messages) {
         					
         					// get the message text
@@ -109,10 +109,11 @@ public class MessageHolder {
             				String user = ((ParseObject) o).getString("user").toString();
             				// get the location
             				ParseGeoPoint pt = ((ParseObject) o).getParseGeoPoint("location");
-            				mMap.addMarker(new MarkerOptions()
+            				temp = mMap.addMarker(new MarkerOptions()
             					.position(new LatLng(pt.getLatitude(), pt.getLongitude()))
             					.title(text)
             					.snippet(user));
+            				idMap.put(temp, o);
         				}
         				
         			}

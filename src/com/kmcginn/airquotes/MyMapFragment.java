@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseObject;
 
 public class MyMapFragment extends SupportMapFragment {
 
@@ -29,7 +31,7 @@ public class MyMapFragment extends SupportMapFragment {
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
 	MessageHolder allMessages;
-	HashMap<Marker,String> idMap;
+	HashMap<Marker,ParseObject> idMap;
 	
 	//TODO: read this in from settings
 	//private Boolean friendsOnly = false;
@@ -39,7 +41,7 @@ public class MyMapFragment extends SupportMapFragment {
 	
 	public MyMapFragment() {
 		super();
-		idMap = new HashMap<Marker, String>();
+		idMap = new HashMap<Marker, ParseObject>();
 	}
 	
 	public static MyMapFragment newInstance(LatLng newLoc, MessageHolder holder) {
@@ -163,7 +165,9 @@ public class MyMapFragment extends SupportMapFragment {
 
 			@Override
 			public void onInfoWindowClick(Marker mark) {
-				
+				Intent intent = new Intent(getActivity(), CommentViewActivity.class);
+		    	intent.putExtra("objId", idMap.get(mark).getObjectId());
+		    	MyMapFragment.this.startActivity(intent);
 				
 			}        	
         	
