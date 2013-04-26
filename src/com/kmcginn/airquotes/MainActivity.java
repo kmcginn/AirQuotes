@@ -49,7 +49,7 @@ public class MainActivity extends FragmentActivity implements
 	private LocationManager locationManager;
 	private ParseUser currUser;
 	MessageHolder allMessages;
-	CharSequence[] filters = {"Closest", "Most Recent", "Friends"};
+	CharSequence[] filters = {"Highest", "Most Recent", "Friends"};
     boolean[] filtersChecked = new boolean[filters.length];
 
 	
