@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class MyMapFragment extends SupportMapFragment {
 	//private Boolean friendsOnly = false;
 
 	
-	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
+	
 	
 	public MyMapFragment() {
 		super();
@@ -82,70 +83,6 @@ public class MyMapFragment extends SupportMapFragment {
 		
 		//add message pins
 		allMessages.refreshMap(nearbyRadius, loc, mMap, idMap);
-		/*
-		// setup parse query (for messages)
-        ParseQuery query = new ParseQuery("Message");
-        //set distance away
-        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
-        // find them in the background
-        query.findInBackground(new FindCallback() {
-        	public void done(List<ParseObject> objects, ParseException e) {
-        		if(e == null) {
-        			//success
-        			
-        			// add all objects from query to list adapter
-        			for(Object o: objects){
-        				// get the message text
-        				String text = ((ParseObject) o).getString("text").toString();
-        				//get the message's user
-        				//String user = ((ParseObject) o).getString("user").toString();
-        				String user = "test";
-        				// get the location
-        				ParseGeoPoint pt = ((ParseObject) o).getParseGeoPoint("location");
-        				mMap.addMarker(new MarkerOptions()
-        					.position(new LatLng(pt.getLatitude(), pt.getLongitude()))
-        					.title(text)
-        					.snippet(user));
-        			}
-      
-        		}
-        		else {
-        			//failure
-        			Toast.makeText(getActivity(), "Unable to retrieve notes", Toast.LENGTH_LONG).show();
-        		}
-        	}
-        });
-        */
-        
-        FeedFetcher feedFetcher = new FeedFetcher();
-        JSONArray array = feedFetcher.makeHTTPRequest(COUPON_URL);
-        JSONObject myObj = new JSONObject();
-        JSONArray coupons = new JSONArray();
-        double lt = 0;
-        double ln = 0;
-        String locName = "";
-        for(int i = 0; i < array.length(); i++) {
-        	try {
-				myObj = array.getJSONObject(i);
-			} catch (JSONException e1) {
-				e1.printStackTrace();
-			}
-        	
-        	try {
-				lt = myObj.getDouble("lat");
-				locName = myObj.getString("name");
-				ln = myObj.getDouble("lon");
-				coupons = myObj.getJSONArray("coupons");
-			} catch (JSONException e1) {
-				e1.printStackTrace();
-			}
-        	
-        	mMap.addMarker(new MarkerOptions()
-        	.position(new LatLng(lt, ln))
-        	.title(locName)
-        	.snippet(coupons.length() + " coupon(s) available")
-        	.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        }
         
         mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
         	private float currentZoom = -1;

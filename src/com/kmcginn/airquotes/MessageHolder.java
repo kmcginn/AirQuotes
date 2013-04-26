@@ -5,10 +5,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -24,6 +29,7 @@ public class MessageHolder {
 
 	Set<ParseObject> messages = new LinkedHashSet<ParseObject>();
 	Set<ParseObject> friends = new LinkedHashSet<ParseObject>();
+	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
 
 	//constructor
 	public MessageHolder() {
@@ -132,6 +138,37 @@ public class MessageHolder {
 			
 		}
 		
+		FeedFetcher feedFetcher = new FeedFetcher();
+        JSONArray array = feedFetcher.makeHTTPRequest(COUPON_URL);
+        JSONObject myObj = new JSONObject();
+        JSONArray coupons = new JSONArray();
+        double lt = 0;
+        double ln = 0;
+        String locName = "";
+        for(int i = 0; i < array.length(); i++) {
+        	try {
+				myObj = array.getJSONObject(i);
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+        	
+        	try {
+				lt = myObj.getDouble("lat");
+				locName = myObj.getString("name");
+				ln = myObj.getDouble("lon");
+				coupons = myObj.getJSONArray("coupons");
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+        	
+        	mMap.addMarker(new MarkerOptions()
+        	.position(new LatLng(lt, ln))
+        	.title(locName)
+        	.snippet(coupons.length() + " coupon(s) available")
+        	.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        	
+        	Log.d("map", "adding pin at " + locName);
+        }
 		
 	}
 	
