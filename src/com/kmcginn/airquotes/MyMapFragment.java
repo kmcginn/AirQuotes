@@ -1,5 +1,7 @@
 package com.kmcginn.airquotes;
 
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,15 +29,17 @@ public class MyMapFragment extends SupportMapFragment {
 	private LatLng loc;
 	private double nearbyRadius = 0.5;
 	MessageHolder allMessages;
+	HashMap<Marker,String> idMap;
 	
 	//TODO: read this in from settings
-	private Boolean friendsOnly = false;
+	//private Boolean friendsOnly = false;
 
 	
 	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
 	
 	public MyMapFragment() {
 		super();
+		idMap = new HashMap<Marker, String>();
 	}
 	
 	public static MyMapFragment newInstance(LatLng newLoc, MessageHolder holder) {
@@ -43,7 +47,6 @@ public class MyMapFragment extends SupportMapFragment {
 		frag.loc = newLoc;
 		frag.allMessages = holder;
 		return frag;
-		
 	}
 	
 
@@ -76,7 +79,7 @@ public class MyMapFragment extends SupportMapFragment {
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 14));
 		
 		//add message pins
-		allMessages.refreshMap(friendsOnly, nearbyRadius, loc, mMap);
+		allMessages.refreshMap(nearbyRadius, loc, mMap, idMap);
 		/*
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");

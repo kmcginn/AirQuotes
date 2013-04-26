@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -421,6 +422,23 @@ public class MainActivity extends FragmentActivity implements
 			return false;
 			
 		}
+	}
+	
+	public Boolean friendsChecked(View view) {
+		
+		ParseUser currUser= ParseUser.getCurrentUser();
+		try {
+			currUser.put("viewFriends", ((CheckBox) findViewById(R.id.viewFriendsCheck)).isChecked());
+			currUser.saveInBackground();
+			
+			//TODO: refresh list and map in here
+			return true;
+		} catch (Exception e) {
+			Log.e("check","Unable to saved friend preference: "+e);
+			return false;
+		}
+		
+		
 	}
 }
 

@@ -1,5 +1,6 @@
 package com.kmcginn.airquotes;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,7 +60,11 @@ public class MessageHolder {
 		
 	}
 	
-	public void refreshMap(Boolean friendsOnly, double nearbyRadius, LatLng loc, final GoogleMap mMap) {
+	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, String> idMap) {
+		
+		Boolean friendsOnly;
+		
+		friendsOnly= (Boolean) ParseUser.getCurrentUser().get("viewFriends");
 		
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
@@ -138,7 +144,11 @@ public class MessageHolder {
 		
 	}
 	
-	public void refreshList(Boolean friendsOnly, double nearbyRadius, LatLng loc, final ArrayAdapter<String> listAdapter) {
+	public void refreshList(double nearbyRadius, LatLng loc, final ArrayAdapter<String> listAdapter) {
+		
+		Boolean friendsOnly;
+		
+		friendsOnly= (Boolean) ParseUser.getCurrentUser().get("viewFriends");
 		
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");

@@ -107,13 +107,7 @@ public class FriendsFragment extends Fragment{
 	
 	public void onPause(){
 		super.onPause();
-		ParseUser currUser= ParseUser.getCurrentUser();
-		currUser.put("viewFriends", ((CheckBox) getView().findViewById(R.id.viewFriendsCheck)).isChecked());
-		try {
-			currUser.save();
-		} catch (ParseException e) {
-			Log.e("check","Unable to saved friend preference: "+e);
-		}
+		
 	}
 	/*
 	 * Set up the {@link android.app.ActionBar}.

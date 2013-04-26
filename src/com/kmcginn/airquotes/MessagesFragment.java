@@ -61,7 +61,7 @@ public class MessagesFragment extends Fragment{
         listView.setOnItemClickListener(mMessageClickedHandler);
 		Log.e("loc","before friends query");
 
-		allMessages.refreshList(friendsOnly, nearbyRadius, loc, listAdapter);
+		allMessages.refreshList(nearbyRadius, loc, listAdapter);
 		/*
         // get friends list
         
