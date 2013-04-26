@@ -87,6 +87,25 @@
             android:label="@string/title_activity_comment_view" >
         </activity>
         <activity
+            android:name="com.kmcginn.airquotes.HelpActivity"
+            android:label="@string/title_activity_help" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kmcginn.airquotes.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.MessageHelpFragment"
+            android:label="@string/title_fragment_message_help" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.MapHelpFragment"
+            android:label="@string/title_activity_map_help_fragment" >
+        </activity>
+        <activity
+            android:name="com.kmcginn.airquotes.FriendsHelpFragment"
+            android:label="@string/title_activity_friends_help_fragment" >
+        </activity>
+        <activity
             android:name="com.kmcginn.airquotes.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
@@ -94,14 +113,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kmcginn.airquotes.MainActivity" />
         </activity>
-        <activity
-            android:name="com.kmcginn.airquotes.HelpActivity"
-            android:label="@string/title_activity_help"
-            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kmcginn.airquotes.MainActivity" />
-        </activity>
+            
     </application>
 
 </manifest>
