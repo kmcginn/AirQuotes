@@ -9,24 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".CommentViewActivity"
     style="@style/MainTheme" >
-    <Button
-        android:id="@+id/doneButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:onClick="onDoneClicked"
-        android:text="@string/done_button" />
-
-    <TextView
-        android:id="@+id/postText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/doneButton"
-        android:layout_marginTop="18dp"
-        android:text="@string/base_post_text" />
 
     <TextView
         android:id="@+id/usernameText"
@@ -103,5 +85,13 @@
         android:layout_centerHorizontal="true" >
 
     </ListView>
+
+    <TextView
+        android:id="@+id/postText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/climbButton"
+        android:layout_alignParentTop="true"
+        android:text="@string/base_post_text" />
 
 </RelativeLayout>
