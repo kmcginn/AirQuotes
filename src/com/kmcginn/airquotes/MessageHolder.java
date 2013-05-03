@@ -229,6 +229,7 @@ public class MessageHolder {
         try {
 	        //set distance away
 	        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
+        	//query.whereNear("location", new ParseGeoPoint(loc.latitude,loc.longitude));
         } catch (Exception e1){
 			Log.e("loc", "Unable to get location: " + e1);
         }

@@ -61,11 +61,13 @@ public class MessagesFragment extends Fragment{
         ListView listView = (ListView) findView.findViewById(R.id.list);
         // init arraylist adapter
         listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);
         
         listView.setOnItemClickListener(mMessageClickedHandler);
 
+        allMessages.refreshFriends(null);
 		allMessages.refreshList(nearbyRadius, loc, listAdapter);
 		/*
         // get friends list
