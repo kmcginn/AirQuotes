@@ -30,6 +30,8 @@ public class MessageHolder {
 	Set<ParseObject> messages = new LinkedHashSet<ParseObject>();
 	Set<ParseObject> map_messages = new LinkedHashSet<ParseObject>();
 	Set<ParseObject> friends = new LinkedHashSet<ParseObject>();
+	Set<String> friendNames = new LinkedHashSet<String>();
+
 	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
 
 	//constructor
@@ -57,6 +59,7 @@ public class MessageHolder {
 							for(ParseObject o: users){
 								try {
 								friends.add( o);
+								friendNames.add(o.getString("username"));
 								}
 								catch (Exception e1){
 									Log.e("collection","Couldn't add to collection: "+o.getString("username")+e1);
@@ -97,7 +100,7 @@ public class MessageHolder {
 			Log.e("loc", "Unable to get location: " + e1);
         }
 		if (friendsOnly){
-        	query.whereContainedIn("user", friends);
+        	query.whereContainedIn("user", friendNames);
         }
 		
     	// find them in the background
@@ -231,7 +234,7 @@ public class MessageHolder {
         }
 
         if (friendsOnly){
-        	query.whereContainedIn("user", friends);
+        	query.whereContainedIn("user", friendNames);
         }
 		
     	// find them in the background
