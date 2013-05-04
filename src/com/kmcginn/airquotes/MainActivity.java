@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity implements
 	private LocationManager locationManager;
 	private ParseUser currUser;
 	MessageHolder allMessages;
-	CharSequence[] filters = {"Highest", "Most Recent", "Friends"};
+	CharSequence[] filters = {"Nearest","Highest", "Most Recent", "Friends"};
     int filterNum = -1;
 
 	
@@ -59,7 +59,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		setResult(1);
 
-		filterNum= ParseUser.getCurrentUser().getInt("filter")-1;
+		filterNum= ParseUser.getCurrentUser().getInt("filter");
 		allMessages = new MessageHolder();
 		
 		// TODO: make THIS one launch first, launch login activity if no user information
@@ -476,7 +476,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		ParseUser currUser= ParseUser.getCurrentUser();
 		try {
-			currUser.put("filter", filterNum+1);
+			currUser.put("filter", filterNum);
 			currUser.saveInBackground();
 			
 			//TODO: refresh list and map in here
@@ -516,12 +516,7 @@ public class MainActivity extends FragmentActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            	if (filterNum!=which) {
-            		filterNum= which;
-            	}
-            	else {
-            		filterNum=-1;
-            	}
+           		filterNum= which;
             }
         });
         filter.show();
