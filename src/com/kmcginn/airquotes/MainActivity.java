@@ -103,6 +103,16 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		ParseUser currUser = ParseUser.getCurrentUser();
+		if(currUser == null) {
+			finish();			
+		}
+		
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -404,7 +414,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == 5 && resultCode == 5) {
+		if( resultCode == 5) {
 			finish();
 			
 		}

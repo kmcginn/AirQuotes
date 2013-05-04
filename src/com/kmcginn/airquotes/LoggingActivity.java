@@ -25,6 +25,28 @@ public class LoggingActivity extends Activity {
 		Parse.initialize(this, "AyI8XoEioHWsBFl7PmQWMLbiJ6woG6O7uJFfqAYK", 
 				"nzKyPzUYD5UUJIJSxZ8jUqCp9rWQxGXc7XnmdA85");
 		setResult(5);
+		
+		//check if user is already logged in
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if(currentUser != null) {
+			Intent intent= new Intent(context, MainActivity.class);
+	    	intent.putExtra("user", currentUser.getEmail());
+	    	startActivityForResult(intent, 1);			
+		}
+		
+	}
+	
+	
+	//TODO: remove this if we can get the back button to work better
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setResult(1);
+		//check if user is already logged in
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if(currentUser != null) {
+			finish();			
+		}
 	}
 
 	@Override
@@ -37,7 +59,7 @@ public class LoggingActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == 1 && resultCode == 1) {
+		if(resultCode == 1) {
 			finish();			
 		}
 	}
