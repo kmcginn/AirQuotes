@@ -24,7 +24,7 @@
     <string name="title_activity_settings_fragment">SettingsFragment</string>
     <string name="add_friends">Enter Friend\'s Email</string>
     <string name="friend_button">Add Friend</string>
-    <string name="friend_list">Friend List</string>
+    <string name="friend_list">Friends List</string>
     <string name="title_activity_comment_view">AirQuotes</string>
     <string name="done_button">Done</string>
     <string name="base_post_text">Comment</string>
