@@ -33,6 +33,16 @@ public class MessageHolder {
 	Set<String> friendNames = new LinkedHashSet<String>();
 
 	private static String COUPON_URL = "http://www.hoosiertimescoupons.com/api/";
+	
+	/*
+	private ArrayAdapter<String> localFriendsAdapter;
+	private ArrayAdapter<String> localListAdapter;
+	private GoogleMap localMap;
+	private HashMap<Marker, ParseObject> localId;
+	private HashMap<Marker, JSONObject> localCoup;
+	private double localRadius;
+	private LatLng localLoc;
+	*/
 
 	//constructor
 	public MessageHolder() {
@@ -69,6 +79,11 @@ public class MessageHolder {
 									flistAdapter.add(o.getString("username"));
 									flistAdapter.notifyDataSetChanged();
 								}
+								
+								/*
+								refreshMap(localRadius, localLoc, localMap, localId, localCoup);
+								refreshList(localRadius, localLoc, localListAdapter);
+								*/
 							}
 						}
 						else {
@@ -84,7 +99,17 @@ public class MessageHolder {
 	
 	public void refreshMap(double nearbyRadius, LatLng loc, final GoogleMap mMap, final HashMap<Marker, ParseObject> idMap, final HashMap<Marker, JSONObject> coupMap) {
 		
-		mMap.clear();
+		/*
+		localMap = mMap;
+		localId = idMap;
+		localCoup = coupMap;
+		localRadius = nearbyRadius;
+		localLoc = loc;
+		*/
+		
+		if(mMap != null) {
+			mMap.clear();
+		}
 		
 		int filter = -1;
 		
@@ -106,6 +131,11 @@ public class MessageHolder {
         
 		if (filter==3){
         	query.whereContainedIn("user", friendNames);
+        	
+        	if(friendNames.isEmpty()) {
+        		Log.e("refreshMap", "user has no friends");
+        		
+        	}
         }
 		else if (filter==2){
 			query.orderByDescending("createdAt");
@@ -227,6 +257,9 @@ public class MessageHolder {
 	
 	public void refreshList(double nearbyRadius, LatLng loc, final ArrayAdapter<String> listAdapter) {
 		
+		/*
+		localListAdapter = listAdapter;
+		*/
 		listAdapter.clear();
 		listAdapter.notifyDataSetChanged();
 		
@@ -250,6 +283,10 @@ public class MessageHolder {
         
 		if (filter==3){
         	query.whereContainedIn("user", friendNames);
+        	if(friendNames.isEmpty()) {
+        		Log.e("refreshMap", "user has no friends");
+        		
+        	}
         }
 		else if (filter==2){
 			query.orderByDescending("createdAt");

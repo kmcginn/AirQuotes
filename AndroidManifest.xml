@@ -29,10 +29,12 @@
         android:allowBackup="true"
         android:icon="@drawable/air_quotes_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+         >
         <activity
             android:name="com.kmcginn.airquotes.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation = "portrait" >
         </activity>
         <activity
             android:name="com.kmcginn.airquotes.PostActivity"
@@ -84,14 +86,16 @@
         </activity>
         <activity
             android:name="com.kmcginn.airquotes.CommentViewActivity"
-            android:label="@string/title_activity_comment_view" >
+            android:label="@string/title_activity_comment_view"
+            android:screenOrientation = "portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kmcginn.airquotes.MainActivity" />
         </activity>
         <activity
             android:name="com.kmcginn.airquotes.HelpActivity"
-            android:label="@string/title_activity_help" >
+            android:label="@string/title_activity_help"
+            android:screenOrientation = "portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kmcginn.airquotes.MainActivity" />
@@ -111,7 +115,8 @@
         <activity
             android:name="com.kmcginn.airquotes.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity"
+            android:screenOrientation = "portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kmcginn.airquotes.MainActivity" />
@@ -119,7 +124,8 @@
         <activity
             android:name="com.kmcginn.airquotes.CouponActivity"
             android:label="@string/title_activity_coupon"
-            android:parentActivityName="com.kmcginn.airquotes.MainActivity" >
+            android:parentActivityName="com.kmcginn.airquotes.MainActivity"
+            android:screenOrientation = "portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kmcginn.airquotes.MainActivity" />
