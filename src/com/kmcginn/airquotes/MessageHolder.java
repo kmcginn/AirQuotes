@@ -86,9 +86,9 @@ public class MessageHolder {
 		
 		mMap.clear();
 		
-		Boolean friendsOnly;
+		int filter = -1;
 		
-		friendsOnly= (Boolean) ParseUser.getCurrentUser().get("viewFriends");
+		filter= ParseUser.getCurrentUser().getInt("filter");
 		
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
@@ -99,7 +99,12 @@ public class MessageHolder {
         } catch (Exception e1){
 			Log.e("loc", "Unable to get location: " + e1);
         }
-		if (friendsOnly){
+        // filter = 0 : nearest
+        // filter = 1 : highest
+        // filter = 2 : most recent
+        // filter = 3 : friends
+        
+		if (filter==3){
         	query.whereContainedIn("user", friendNames);
         }
 		
@@ -219,9 +224,9 @@ public class MessageHolder {
 		listAdapter.clear();
 		listAdapter.notifyDataSetChanged();
 		
-		Boolean friendsOnly;
+		int filter = -1;
 		
-		friendsOnly= (Boolean) ParseUser.getCurrentUser().get("viewFriends");
+		filter= ParseUser.getCurrentUser().getInt("filter");
 		
 		// setup parse query (for messages)
         ParseQuery query = new ParseQuery("Message");
@@ -229,14 +234,18 @@ public class MessageHolder {
         try {
 	        //set distance away
 	        query.whereWithinMiles("location", new ParseGeoPoint(loc.latitude,loc.longitude), nearbyRadius);
-        	//query.whereNear("location", new ParseGeoPoint(loc.latitude,loc.longitude));
         } catch (Exception e1){
 			Log.e("loc", "Unable to get location: " + e1);
         }
-
-        if (friendsOnly){
+        // filter = 0 : nearest
+        // filter = 1 : highest
+        // filter = 2 : most recent
+        // filter = 3 : friends
+        
+		if (filter==3){
         	query.whereContainedIn("user", friendNames);
         }
+		
 		
     	// find them in the background
 		try {

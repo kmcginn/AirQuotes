@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -50,7 +49,7 @@ public class MainActivity extends FragmentActivity implements
 	private ParseUser currUser;
 	MessageHolder allMessages;
 	CharSequence[] filters = {"Highest", "Most Recent", "Friends"};
-    int filtersChecked = -1;
+    int filterNum = -1;
 
 	
 	@Override
@@ -58,6 +57,7 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		filterNum= ParseUser.getCurrentUser().getInt("filter")-1;
 		allMessages = new MessageHolder();
 		
 		// TODO: make THIS one launch first, launch login activity if no user information
@@ -460,17 +460,17 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 	
-	public Boolean friendsChecked(View view) {
+	public Boolean filterChecked() {
 		
 		ParseUser currUser= ParseUser.getCurrentUser();
 		try {
-			currUser.put("viewFriends", ((CheckBox) findViewById(R.id.viewFriendsCheck)).isChecked());
+			currUser.put("filter", filterNum+1);
 			currUser.saveInBackground();
 			
 			//TODO: refresh list and map in here
 			return true;
 		} catch (Exception e) {
-			Log.e("check","Unable to saved friend preference: "+e);
+			Log.e("check","Unable to saved filter preference: "+e);
 			return false;
 		}
 			
@@ -485,10 +485,12 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 
-                if (filtersChecked!=-1) {
-                    Toast.makeText(getBaseContext(), filters[filtersChecked] + " checked!", Toast.LENGTH_LONG).show();
+                if (filterNum!=-1) {
+                    Toast.makeText(getBaseContext(), filters[filterNum] + " checked!", Toast.LENGTH_LONG).show();
                 }
-            
+                Boolean result= filterChecked();
+                refreshAll();
+                
             }
         });
         filter.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -498,11 +500,16 @@ public class MainActivity extends FragmentActivity implements
                 Toast.makeText(getBaseContext(), "Cancel clicked!", Toast.LENGTH_LONG).show();
             }
         });
-        filter.setSingleChoiceItems(filters, filtersChecked, new DialogInterface.OnClickListener() {
+        filter.setSingleChoiceItems(filters, filterNum, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(),  filters[filtersChecked] + " checked!", Toast.LENGTH_LONG).show();
+            	if (filterNum!=which) {
+            		filterNum= which;
+            	}
+            	else {
+            		filterNum=-1;
+            	}
             }
         });
         filter.show();

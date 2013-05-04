@@ -51,15 +51,6 @@ public class FriendsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View settingsView = inflater.inflate(R.layout.settings_fragment, container, false);
-		try{
-			ParseUser currUser= ParseUser.getCurrentUser();
-	        Boolean friendsOnly= (Boolean) currUser.get("viewFriends");
-	        friendsCheck= (CheckBox) settingsView.findViewById(R.id.viewFriendsCheck);
-			friendsCheck.setChecked(friendsOnly);
-		}
-		catch (Exception e1){
-			Log.e("check","Unable to check the box: "+e1);
-		}
 		
 		// get ListView from activity's View
         ListView listView = (ListView) settingsView.findViewById(R.id.friends_list);

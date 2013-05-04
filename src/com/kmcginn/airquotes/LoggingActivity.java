@@ -69,7 +69,7 @@ public class LoggingActivity extends Activity {
 		user.setUsername(address);
 		user.setPassword(password);
 		user.setEmail(address);
-		user.put("viewFriends", false);
+		user.put("filter", 0);
 		
 		final String email = address;
 		
