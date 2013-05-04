@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity implements
 	private ParseUser currUser;
 	MessageHolder allMessages;
 	CharSequence[] filters = {"Highest", "Most Recent", "Friends"};
-    boolean[] filtersChecked = new boolean[filters.length];
+    int filtersChecked = -1;
 
 	
 	@Override
@@ -484,11 +484,11 @@ public class MainActivity extends FragmentActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (int i = 0; i < filters.length; i++) {
-                if (filtersChecked[i]) {
-                    Toast.makeText(getBaseContext(), filters[i] + " checked!", Toast.LENGTH_LONG).show();
+                
+                if (filtersChecked!=-1) {
+                    Toast.makeText(getBaseContext(), filters[filtersChecked] + " checked!", Toast.LENGTH_LONG).show();
                 }
-            }
+            
             }
         });
         filter.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -498,11 +498,11 @@ public class MainActivity extends FragmentActivity implements
                 Toast.makeText(getBaseContext(), "Cancel clicked!", Toast.LENGTH_LONG).show();
             }
         });
-        filter.setMultiChoiceItems(filters, filtersChecked, new DialogInterface.OnMultiChoiceClickListener() {
+        filter.setSingleChoiceItems(filters, filtersChecked, new DialogInterface.OnClickListener() {
 
             @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                Toast.makeText(getBaseContext(), filters[which] + (isChecked ? "checked!" : "unchecked!"), Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(),  filters[filtersChecked] + " checked!", Toast.LENGTH_LONG).show();
             }
         });
         filter.show();
