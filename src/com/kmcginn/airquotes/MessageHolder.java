@@ -107,6 +107,12 @@ public class MessageHolder {
 		if (filter==3){
         	query.whereContainedIn("user", friendNames);
         }
+		else if (filter==2){
+			query.orderByDescending("createdAt");
+		}
+		else if (filter==1){
+			query.orderByDescending("altitude");
+		}
 		
     	// find them in the background
 		try {
@@ -245,6 +251,12 @@ public class MessageHolder {
 		if (filter==3){
         	query.whereContainedIn("user", friendNames);
         }
+		else if (filter==2){
+			query.orderByDescending("createdAt");
+		}
+		else if (filter==1){
+			query.orderByDescending("altitude");
+		}
 		
 		
     	// find them in the background
