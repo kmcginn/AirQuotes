@@ -56,6 +56,8 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		setResult(1);
 
 		filterNum= ParseUser.getCurrentUser().getInt("filter")-1;
 		allMessages = new MessageHolder();
@@ -399,12 +401,22 @@ public class MainActivity extends FragmentActivity implements
 	     return "android:switcher:" + viewId + ":" + index;
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == 5 && resultCode == 5) {
+			finish();
+			
+		}
+		
+	}
+	
 	public Boolean logoutClicked(MenuItem item){
 		try {
 			ParseUser.logOut();
 			Toast.makeText(context, "Logged Out", Toast.LENGTH_LONG).show();
 			Intent intent= new Intent(context, LoggingActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, 5);
 			return true;
 		} catch (Exception e) {
 			Log.e("logout", "Unable to logout");

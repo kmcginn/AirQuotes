@@ -24,6 +24,7 @@ public class LoggingActivity extends Activity {
 		setContentView(R.layout.activity_logging);
 		Parse.initialize(this, "AyI8XoEioHWsBFl7PmQWMLbiJ6woG6O7uJFfqAYK", 
 				"nzKyPzUYD5UUJIJSxZ8jUqCp9rWQxGXc7XnmdA85");
+		setResult(5);
 	}
 
 	@Override
@@ -31,6 +32,14 @@ public class LoggingActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.logging, menu);
 		return true;
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == 1 && resultCode == 1) {
+			finish();			
+		}
 	}
 
 	public void logInClick(View view) {
@@ -45,7 +54,7 @@ public class LoggingActivity extends Activity {
 			      // Hooray! The user is logged in.
 			    	Intent intent= new Intent(context, MainActivity.class);
 			    	intent.putExtra("user", user.getEmail());
-			    	startActivity(intent);
+			    	startActivityForResult(intent, 1);
 			    } else {
 			      // Signup failed. Look at the ParseException to see what happened.
 					Toast.makeText(context, "Invalid Email Address or Password", Toast.LENGTH_LONG).show();
