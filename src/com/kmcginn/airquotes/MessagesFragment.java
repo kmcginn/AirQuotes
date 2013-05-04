@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +60,8 @@ public class MessagesFragment extends Fragment{
         ListView listView = (ListView) findView.findViewById(R.id.list);
         // init arraylist adapter
         listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        
+        //listAdapter = new MySimpleArrayAdapter(getActivity());
         
         // attach the adapter to the listview
         listView.setAdapter(listAdapter);

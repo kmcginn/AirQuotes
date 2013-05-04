@@ -319,12 +319,16 @@ public class MessageHolder {
     	        			String text = o.getString("text").toString();
     	        			// get the author
     	        			String author = o.getString("user").toString();
+    	        			String altitude = o.getNumber("altitude").toString();
     	        			// add a string combining the message and location
-    	        			listAdapter.add(text + "\n" + author);      					
+    	        			listAdapter.add(text + "\n" + author);
+    	        			//listAdapter.add("message", text);
+    	        			//listAdapter.add("author", author);
+    	        			//listAdapter.add("altitude", altitude);
         				}
         				
         				//indicate that the list adapter has changed its data, so the listview will update
-        				listAdapter.notifyDataSetChanged();
+        				//listAdapter.notifyDataSetChanged();
         			}
         			
         		}
