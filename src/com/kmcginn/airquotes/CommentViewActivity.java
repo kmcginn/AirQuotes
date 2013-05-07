@@ -39,6 +39,8 @@ public class CommentViewActivity extends Activity {
 	int altitude = 0;
 	private ArrayAdapter<String> listAdapter;
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,20 +110,6 @@ public class CommentViewActivity extends Activity {
 			} catch (Exception e3) {
 				Log.e("post","Post query raised an exception: "+e3);
 			}
-        		
-        		/*else {
-        			//failure
-        			Toast.makeText(context, "Unable to retrieve post", Toast.LENGTH_LONG).show();
-        			Intent intent3= new Intent(context, MainActivity.class);
-        	    	startActivity(intent3);
-        		}*/
-    	
-        //
-        //Update Comments
-        //
-
-  		 
-    
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,12 +136,7 @@ public class CommentViewActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	/*
-	public void onDoneClicked(View view){
-		Intent intent= new Intent(context, MainActivity.class);
-    	startActivity(intent);	
-    }
-	*/
+	
 	public void onClimbClicked(View view){
 		
 		altitude+=1;
@@ -217,8 +200,40 @@ public class CommentViewActivity extends Activity {
 		ParseObject commentHolder= new ParseObject("Comment");
 		commentHolder.put("text", comment);
 		commentHolder.put("user", currUser.getUsername());
+		final ParseObject fullComment = commentHolder;
 		try {
-			commentHolder.save();
+			commentHolder.saveInBackground(new SaveCallback() {
+
+				@Override
+				public void done(ParseException e) {
+					try {
+						//	update the relationship
+						ParseRelation relation = mainPost.getRelation("Comments");
+						relation.add(fullComment);
+			      	} catch (Exception e1){
+				    	Log.e("relation", "Exception while adding a relation: "+e1);
+				    }
+
+					mainPost.saveInBackground(new SaveCallback() {
+						public void done(ParseException e) {
+							if(e == null) {
+								// saved successfully
+								//Toast.makeText(context, "Relation saved", Toast.LENGTH_SHORT).show();
+							}
+							else {
+							
+								// did not save successfully
+								//Toast.makeText(context, "Unable to save relation: " + e.getMessage(), Toast.LENGTH_LONG).show();
+							}
+						}
+					});
+					
+					loadComments();
+					
+				}
+				
+				
+			});
 			// saved successfully
 			Toast.makeText(context, "Comment saved", Toast.LENGTH_SHORT).show();
 		} catch(Exception e1){
@@ -226,79 +241,52 @@ public class CommentViewActivity extends Activity {
 			Toast.makeText(context, "Unable to save comment: " + e1.toString(), Toast.LENGTH_LONG).show();
 		}
       	
-      	try {
-			//	update the relationship
-			ParseRelation relation = mainPost.getRelation("Comments");
-			relation.add(commentHolder);
-      	} catch (Exception e1){
-	    	Log.e("relation", "Exception while adding a relation: "+e1);
-	    }
-
-		mainPost.saveInBackground(new SaveCallback() {
-			public void done(ParseException e) {
-				if(e == null) {
-					// saved successfully
-					Toast.makeText(context, "Relation saved", Toast.LENGTH_SHORT).show();
-				}
-				else {
-				
-					// did not save successfully
-					Toast.makeText(context, "Unable to save relation: " + e.getMessage(), Toast.LENGTH_LONG).show();
-				}
-			}
-		});
-		
-		loadComments();
+      	
 	}
 	public void loadComments(){
 		// get ListView from activity's View
         ListView listView = (ListView) findViewById(R.id.commentList);
-      // init arraylist adapter
-      listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-      // attach the adapter to the listview
-    try {
-      listView.setAdapter(listAdapter);
-
-	} catch (Exception e1) {
-		Log.e("adapter", "Exception while creating listAdaptor: "+e1);
-	}
+        // init arraylist adapter
+        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        // attach the adapter to the listview
+        try {
+        	listView.setAdapter(listAdapter);
+        } catch (Exception e1) {
+        	Log.e("adapter", "Exception while creating listAdaptor: "+e1);
+        }
   	  
-  	try {
-        // setup parse query (for comments)
-        ParseRelation relation = mainPost.getRelation("Comments");
-        ParseQuery commentQuery = relation.getQuery();
-        
-        // find them in the background
-        commentQuery.findInBackground(new FindCallback() {
-       	public void done(List<ParseObject> objects, ParseException e) {
-       		if(e == null) {
-       			//success
+        try {
+        	// setup parse query (for comments)
+        	ParseRelation relation = mainPost.getRelation("Comments");
+        	ParseQuery commentQuery = relation.getQuery();
+        	commentQuery.orderByAscending("createdAt");
+        	// find them in the background
+        	commentQuery.findInBackground(new FindCallback() {
+        		public void done(List<ParseObject> objects, ParseException e) {
+        			if(e == null) {
+        				//success
           			
-       			// add all objects from query to list adapter
-       			for(Object o: objects){
-       				// get the message
-       				String text = ((ParseObject) o).getString("text").toString();
-       				// get the user
-       				String user = ((ParseObject) o).getString("user").toString();
-       				// add a string combining the message and user
-       				listAdapter.add(text + "\n" + user);
-       			}
+        				// add all objects from query to list adapter
+        				for(Object o: objects){
+        					// get the message
+        					String text = ((ParseObject) o).getString("text").toString();
+        					// get the user
+        					String user = ((ParseObject) o).getString("user").toString();
+        					// add a string combining the message and user
+        					listAdapter.add(text + "\n" + user);
+        				}
           			
-       			//indicate that the list adapter has changed its data, so the listview will update
-       			listAdapter.notifyDataSetChanged();
-       		}
-       		else {
-       			//failure
-       			Toast.makeText(context, "Unable to retrieve comments", Toast.LENGTH_LONG).show();
-       		}
-       	}
-       	});
+        				//indicate that the list adapter has changed its data, so the listview will update
+        				listAdapter.notifyDataSetChanged();
+        			}
+        			else {
+        				//failure
+        				Toast.makeText(context, "Unable to retrieve comments", Toast.LENGTH_LONG).show();
+        			}	
+        		}
+        	});
         } catch(Exception e1){
 		  Log.e("query", "Exception in querying relation: "+e1);
-		 }
- 
-
-	}
-	
-	
+		}
+ 	}
 }

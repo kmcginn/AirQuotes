@@ -489,7 +489,7 @@ public class MainActivity extends FragmentActivity implements
 			currUser.put("filter", filterNum);
 			currUser.saveInBackground();
 			
-			//TODO: refresh list and map in here
+			
 			return true;
 		} catch (Exception e) {
 			Log.e("check","Unable to saved filter preference: "+e);
@@ -508,7 +508,7 @@ public class MainActivity extends FragmentActivity implements
             public void onClick(DialogInterface dialog, int which) {
                 
                 if (filterNum!=-1) {
-                    Toast.makeText(getBaseContext(), filters[filterNum] + " checked!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getBaseContext(), filters[filterNum] + " checked!", Toast.LENGTH_LONG).show();
                 }
                 Boolean result= filterChecked();
                 refreshAll();
@@ -519,7 +519,7 @@ public class MainActivity extends FragmentActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(), "Cancel clicked!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "Cancel clicked!", Toast.LENGTH_LONG).show();
             }
         });
         filter.setSingleChoiceItems(filters, filterNum, new DialogInterface.OnClickListener() {
