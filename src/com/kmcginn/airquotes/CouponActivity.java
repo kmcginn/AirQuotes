@@ -1,16 +1,24 @@
 package com.kmcginn.airquotes;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +27,9 @@ public class CouponActivity extends Activity {
 
 	ArrayAdapter<String> listAdapter;
 	private JSONObject coupObj;
+	ArrayList<String> coupDetails;
+	Context context = this;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +38,7 @@ public class CouponActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
+		coupDetails = new ArrayList<String>();
 		
 		Intent intent = getIntent();
 		
@@ -43,6 +55,7 @@ public class CouponActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.coupon_list);
         listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(mCouponClickedHandler);
 		try {
 			name.setText(coupObj.getString("name").toString());
 			addr.setText(coupObj.getString("address").toString());
@@ -63,8 +76,9 @@ public class CouponActivity extends Activity {
 		JSONObject oneCoup = new JSONObject();
 		for(int i = 0; i < allCoups.length(); i++) {
 			try{
-			oneCoup = allCoups.getJSONObject(i);
-			listAdapter.add(oneCoup.getString("name").toString());	
+				oneCoup = allCoups.getJSONObject(i);
+				listAdapter.add(oneCoup.getString("name").toString());
+				coupDetails.add(oneCoup.getJSONObject("details").getString("desc").toString());
 			} catch (JSONException e) {
 				
 				e.printStackTrace();
@@ -110,4 +124,26 @@ public class CouponActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private OnItemClickListener mCouponClickedHandler = new OnItemClickListener() {
+	    @SuppressWarnings("rawtypes")
+		public void onItemClick(AdapterView parent, View v, int position, long id) {
+	        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	        
+	        builder.setMessage(coupDetails.get(position));
+	        builder.setCancelable(true);
+	        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	            	//do nothing
+	            	//could eventually mark coupon as claimed
+	            }
+	        });
+	        // Create the AlertDialog object and return it
+	        AlertDialog alertDialog = builder.create();
+	        alertDialog.show();
+	    	
+	    }
+	};
+	
 }
