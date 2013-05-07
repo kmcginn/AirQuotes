@@ -55,7 +55,7 @@
     <string name="help_view_map_post_title">View Post from Map</string>
     <string name="help_view_map_post_content">In order to see a full post, after opening the preview, tap the preview and the full post view will open.</string>
     <string name="help_view_main_post_title">View Individual Post</string>
-    <string name="help_view_main_post_content">In order to view an individual post, simply click on the post and a new window will open. This window will show the post, it\'s information and any comments made upon the post.</string>
+    <string name="help_view_main_post_content">To view an individual post, simply click on the post and a new window will open. This window will show the post, it\'s information and any comments made upon the post.</string>
     <string name="help_choose_filter_title">Choosing a Chatter Filter</string>
-    <string name="help_choose_filter_content">In order to choose a filter for the local chatter, click the settings button on your phone. Then tap "Filter By:" and choose the type of filter you would prefer. The choices are by altitude(Highest), by time(Most Recent), or by people you know.(Friends)</string>
+    <string name="help_choose_filter_content">To choose a filter for the local chatter, click the settings button on your phone. Then tap "Filter By:" and choose the type of filter you would prefer. The choices are by altitude(Highest), by time(Most Recent), or by people you know.(Friends)</string>
 </resources>

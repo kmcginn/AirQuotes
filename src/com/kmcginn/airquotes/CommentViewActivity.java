@@ -223,7 +223,7 @@ public class CommentViewActivity extends Activity {
 							else {
 							
 								// did not save successfully
-								//Toast.makeText(context, "Unable to save relation: " + e.getMessage(), Toast.LENGTH_LONG).show();
+								Toast.makeText(context, "Unable to save relation: " + e.getMessage(), Toast.LENGTH_LONG).show();
 							}
 						}
 					});
